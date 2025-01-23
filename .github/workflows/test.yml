@@ -51,6 +51,14 @@ jobs:
             const { BOT_NAME } = process.env;
             const prNumber = context.issue.number;
             const { owner, repo } = context.repo;
+
+            const { data: comments } = await github.rest.pulls.listReviewComments({
+              owner,
+              repo,
+              pull_number: prNumber,
+            });
+
+
             const botComments = comments.data.filter(comment => comment.user.login === BOT_NAME).shift()
             const results = require('./results.json');
             const { basename } = require('path')
