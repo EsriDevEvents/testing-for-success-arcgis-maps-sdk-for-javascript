@@ -59,7 +59,7 @@ jobs:
             });
 
 
-            const botComments = comments.data.filter(comment => comment.user.login === BOT_NAME).shift()
+            const botComments = comments.filter(comment => comment.user.login === BOT_NAME).shift()
             const results = require('./results.json');
             const { basename } = require('path')
 
