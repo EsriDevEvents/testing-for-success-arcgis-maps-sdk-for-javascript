@@ -51,7 +51,15 @@ jobs:
             const { BOT_NAME } = process.env;
             const prNumber = context.issue.number;
             const { owner, repo } = context.repo;
-            const botComments = comments.data.filter(comment => comment.user.login === BOT_NAME).shift()
+
+            const { data: comments } = await github.rest.pulls.listReviewComments({
+              owner,
+              repo,
+              pull_number: prNumber,
+            });
+
+
+            const botComments = comments.filter(comment => comment.user.login === BOT_NAME).shift()
             const results = require('./results.json');
             const { basename } = require('path')
 
@@ -60,8 +68,8 @@ jobs:
             const { success, testResults } = results;
             const table = ["| Test | Status | File |", "| --- | --- | --- |"];
 
-            for (const { assertionResults } of testResults) {
-              for (const { fullName, status, name } of assertionResults) {
+            for (const { assertionResults, name } of testResults) {
+              for (const { fullName, status } of assertionResults) {
                 table.push(`| ${fullName} | ${status === "passed" ? "✅" : "❌"} | ${basename(name)} |`);
               }
             }
