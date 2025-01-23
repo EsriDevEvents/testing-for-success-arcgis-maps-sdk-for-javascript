@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      BOT_NAME: github-actions[bot]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,3 +42,48 @@ jobs:
 
           # Stop Storybook after tests
           kill $(lsof -t -i:6006)
+
+      - name: Create a comment
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { BOT_NAME } = process.env;
+            const prNumber = context.issue.number;
+            const { owner, repo } = context.repo;
+            const botComments = comments.data.filter(comment => comment.user.login === BOT_NAME).shift()
+            const results = require('./results.json');
+            const { basename } = require('path')
+
+            let commentId = botComments ? botComments.id : null;
+
+            const { success, testResults } = results;
+            const table = ["| Test | Status | File |", "| --- | --- | --- |"];
+
+            for (const { assertionResults } of testResults) {
+              for (const { fullName, status, name } of assertionResults) {
+                table.push(`| ${fullName} | ${status === "passed" ? "✅" : "❌"} | ${basename(name)} |`);
+              }
+            }
+
+            const body = `
+              ## Test Result: ${success ? "✅" : "❌"}
+              
+              ${table.join("\n")}
+            `;
+
+            if(commentId){
+                github.rest.issues.updateComment({
+                    owner,
+                    repo,
+                    comment_id: commentId,
+                    body
+                });
+            } else {
+                github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: prNumber,
+                    body
+                }); 
+            }
