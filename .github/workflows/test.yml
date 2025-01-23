@@ -68,8 +68,8 @@ jobs:
             const { success, testResults } = results;
             const table = ["| Test | Status | File |", "| --- | --- | --- |"];
 
-            for (const { assertionResults } of testResults) {
-              for (const { fullName, status, name } of assertionResults) {
+            for (const { assertionResults, name } of testResults) {
+              for (const { fullName, status } of assertionResults) {
                 table.push(`| ${fullName} | ${status === "passed" ? "✅" : "❌"} | ${basename(name)} |`);
               }
             }
