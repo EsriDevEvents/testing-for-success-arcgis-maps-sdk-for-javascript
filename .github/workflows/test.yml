@@ -1,0 +1,41 @@
+name: Test
+on:
+  pull_request:
+    paths:
+      - src/**/*.ts
+      - src/**/*.tsx
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm install
+
+      # Installs required dependencies for testing
+      - name: Install playwrights
+        run: |
+          npm install playwright
+          npx playwright install
+
+      - name: Run Tests
+        run: |
+          # Start Storybook on a specific port in the background
+          npm run storybook -- --no-open &
+
+          # Wait for Storybook to be ready (replace with a better health-check mechanism if needed)
+          echo "Waiting for Storybook to start..."
+          sleep 15
+
+          # Run interaction tests
+          npm run test:storybook
+
+          # Stop Storybook after tests
+          kill $(lsof -t -i:6006)
