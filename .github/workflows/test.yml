@@ -1,0 +1,96 @@
+name: Test
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - src/**/*.ts
+      - src/**/*.tsx
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      BOT_NAME: github-actions[bot]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm install
+
+      # Installs required dependencies for testing
+      - name: Install playwrights
+        run: |
+          npx -y playwright install
+
+      - name: Run Tests
+        run: |
+          # Start Storybook on a specific port in the background
+          npm run storybook -- --no-open &
+
+          # Wait for Storybook to be ready (replace with a better health-check mechanism if needed)
+          echo "Waiting for Storybook to start..."
+          sleep 15
+
+          # Run interaction tests
+          npm run test:storybook
+
+          # Stop Storybook after tests
+          kill $(lsof -t -i:6006)
+
+      - name: Create a comment
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { BOT_NAME } = process.env;
+            const prNumber = context.issue.number;
+            const { owner, repo } = context.repo;
+
+            const { data: comments } = await github.rest.pulls.listReviewComments({
+              owner,
+              repo,
+              pull_number: prNumber,
+            });
+
+
+            const botComments = comments.filter(comment => comment.user.login === BOT_NAME).shift()
+            const results = require('./results.json');
+            const { basename } = require('path')
+
+            let commentId = botComments ? botComments.id : null;
+
+            const { success, testResults } = results;
+            const table = ["| Test | Status | File |", "| --- | --- | --- |"];
+
+            for (const { assertionResults, name } of testResults) {
+              for (const { fullName, status } of assertionResults) {
+                table.push(`| ${fullName} | ${status === "passed" ? "✅" : "❌"} | ${basename(name)} |`);
+              }
+            }
+
+            const body = `
+              ## Test Result: ${success ? "✅" : "❌"}
+              
+              ${table.join("\n")}
+            `;
+
+            if(commentId){
+                github.rest.issues.updateComment({
+                    owner,
+                    repo,
+                    comment_id: commentId,
+                    body
+                });
+            } else {
+                github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: prNumber,
+                    body
+                }); 
+            }
