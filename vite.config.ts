@@ -12,6 +12,9 @@ export default defineConfig({
     }
   },
   test: {
-    include: ['**/__tests__/**/*.[jt]s?(x)']
+    include: ['**/__tests__/**/*.[jt]s?(x)'],
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "setupTests.ts",
   }
 })

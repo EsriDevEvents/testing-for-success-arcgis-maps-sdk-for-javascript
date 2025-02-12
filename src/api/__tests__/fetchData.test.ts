@@ -26,7 +26,7 @@ describe("loadObservations", () => {
 
     const callLog = fetchMock.callHistory.callLogs[0];
     assert.exists(callLog);
-    assert.equal(callLog.url, "/load");
+    assert.equal(callLog.url, "http://localhost:3000/load");
   });
 
   test("it throws an exception", async () => {
@@ -65,7 +65,7 @@ describe("saveObservation", () => {
     assert.deepEqual(response, {response: "ok"});
     const callLog = fetchMock.callHistory.callLogs[0];
     assert.exists(callLog);
-    assert.equal(callLog.url, "/save");
+    assert.equal(callLog.url, "http://localhost:3000/save");
     assert.equal(callLog.options.body, JSON.stringify(observation));
   });
 });
