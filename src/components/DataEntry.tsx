@@ -1,3 +1,10 @@
+import "@esri/calcite-components/dist/components/calcite-block";
+import "@esri/calcite-components/dist/components/calcite-block-section";
+import "@esri/calcite-components/dist/components/calcite-button";
+import "@esri/calcite-components/dist/components/calcite-input";
+import "@esri/calcite-components/dist/components/calcite-input-number";
+import "@esri/calcite-components/dist/components/calcite-label";
+import "@esri/calcite-components/dist/components/calcite-notice";
 import {
   CalciteBlock,
   CalciteBlockSection,
@@ -7,6 +14,7 @@ import {
   CalciteLabel,
   CalciteNotice,
 } from "@esri/calcite-components-react";
+
 import { useState } from "react";
 
 interface Location {
@@ -27,8 +35,6 @@ interface DataEntryProps {
 export default function DataEntry({ location, onSubmit }: DataEntryProps) {
   const [observation, setObservation] = useState<string>("");
 
-  console.log("Received Location", { location });
-
   return (
     <CalciteBlock open heading="Selected Location">
       {!location && (
@@ -44,6 +50,7 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
             <CalciteLabel>
               Latitude
               <CalciteInputNumber
+                id="latitude"
                 readOnly
                 value={location ? String(location.latitude) : "0"}
               ></CalciteInputNumber>
@@ -51,8 +58,9 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
           </div>
           <div>
             <CalciteLabel>
-              Longitude{" "}
+              Longitude
               <CalciteInputNumber
+                id="longitude"
                 readOnly
                 value={location ? String(location.longitude) : "0"}
               ></CalciteInputNumber>

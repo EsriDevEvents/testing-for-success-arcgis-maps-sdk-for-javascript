@@ -11,7 +11,7 @@ import {
   CalciteShellPanel,
   CalcitePanel,
 } from "@esri/calcite-components-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const meta = {
   title: "Data Entry",
@@ -33,6 +33,13 @@ const meta = {
         latitude: args.location!.latitude,
         longitude: args.location!.longitude,
       });
+
+      useEffect(() => {
+        setMapPoint({
+          latitude: args.location!.latitude,
+          longitude: args.location!.longitude,
+        });
+      }, [args.location]);
       return (
         <CalciteShell contentBehind>
           <CalciteShellPanel slot="panel-start" position="start">
@@ -49,9 +56,7 @@ const meta = {
             </CalcitePanel>
           </CalciteShellPanel>
           <MapContainer
-            onMapLoad={() => {
-              console.log("Map loaded");
-            }}
+            onMapLoad={console.log}
             onMapClick={(mapPoint) => setMapPoint(mapPoint)}
             loadedPoints={[]}
           />
@@ -64,7 +69,7 @@ const meta = {
       expect(document.querySelector("#textInput")).not.toBeNull()
     );
 
-    const observation = "This is a test observation";
+    const observation = "This tests observation";
 
     await sendkeys(
       document.querySelector("#textInput") as HTMLInputElement,
@@ -93,3 +98,6 @@ export const Test: Story = {
     onSubmit: (observation) => console.log(observation),
   },
 };
+// TODO: Add docs on testings we covered, how to run them, e.g. vitest, storybook.
+// TODO: try to implement screenshot testing.
+// TODO
