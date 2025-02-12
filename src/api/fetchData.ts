@@ -1,9 +1,10 @@
+import { Observation } from "../components/DataEntry";
 
 export async function loadObservations() {
   return fetch("/load").then((response) => response.json()).then((data) => { return data }).catch((error) => { console.error(error); throw error; });
 }
 
-export async function saveObservation(observation: any) {
+export async function saveObservation(observation: Observation) {
   return fetch("/save", {
     method: "POST",
     headers: {
