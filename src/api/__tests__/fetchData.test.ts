@@ -1,6 +1,7 @@
 import fetchMock from "@fetch-mock/vitest";
 import { afterAll, assert, beforeAll, beforeEach, describe, test } from "vitest";
 import { loadObservations, saveObservation } from "../fetchData";
+import { Observation } from "../../components/DataEntry";
 
 
 describe("loadObservations", () => {
@@ -42,7 +43,7 @@ describe("loadObservations", () => {
 });
 
 describe("saveObservation", () => {
-  const observation = { "name": "test" };
+  const observation:Observation = { location: { latitude: 0, longitude: 0 }, observation: "test" };
 
   beforeAll(() => {
     fetchMock.mockGlobal();
