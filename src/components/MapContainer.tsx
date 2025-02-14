@@ -81,10 +81,7 @@ export default function MapContainer({
     pointLayer.removeAll();
     loadedPoints.forEach((point) => {
       const pointGraphic = new Graphic({
-        geometry: new Point({
-          latitude: point.latitude,
-          longitude: point.longitude,
-        }),
+        geometry: new Point({ ...point.location }),
         symbol: new SimpleMarkerSymbol({
           style: "circle",
           size: "10",

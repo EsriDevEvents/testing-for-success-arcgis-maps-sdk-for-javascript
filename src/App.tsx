@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import MapContainer from './components/MapContiainer';
+import MapContainer from './components/MapContainer';
 import './App.css'
 
 import "@esri/calcite-components/dist/components/calcite-shell";

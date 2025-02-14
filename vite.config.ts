@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -5,6 +6,15 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3001,
+    proxy: {
+      "/load": "http://localhost:4000",
+      "/save": "http://localhost:4000",
+    },
+  },
+  test: {
+    include: ["**/__tests__/**/*.[jt]s?(x)"],
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "setupTests.ts",
   },
 });
