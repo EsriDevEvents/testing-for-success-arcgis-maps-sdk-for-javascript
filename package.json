@@ -11,14 +11,14 @@
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
     "test:storybook": "test-storybook --json --outputFile results.json",
-    "test:e2e": "vitest"
+    "test:e2e": "npx playwright install && vitest",
+    "test:playwright": "npx playwright test --ui"
   },
   "dependencies": {
     "@arcgis/core": "^4.31.6",
     "@arcgis/map-components-react": "^4.31.6",
     "@esri/calcite-components-react": "^2.13.2",
     "@storybook/test-runner": "^0.21.0",
-    "pngjs": "^7.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "vitest-browser-react": "^0.1.1"
@@ -26,6 +26,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.4",
     "@eslint/js": "^9.17.0",
+    "@playwright/test": "^1.50.1",
     "@storybook/addon-essentials": "^8.5.0",
     "@storybook/addon-interactions": "^8.5.0",
     "@storybook/addon-onboarding": "^8.5.0",
@@ -36,8 +37,8 @@
     "@storybook/react-vite": "^8.5.0",
     "@storybook/test": "^8.5.0",
     "@storybook/testing-library": "^0.2.1",
+    "@testing-library/react": "^16.2.0",
     "@types/jest-image-snapshot": "^6.4.0",
-    "@types/pngjs": "^6.0.5",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
@@ -46,15 +47,12 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "eslint-plugin-storybook": "^0.11.2",
-    "globals": "^15.14.0",
-    "happy-dom": "^17.1.0",
-    "jest-image-snapshot": "^6.4.0",
-    "jsdom": "^26.0.0",
     "playwright": "^1.50.1",
     "storybook": "^8.5.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5",
+    "vite-plugin-node-polyfills": "^0.23.0",
     "vitest": "^3.0.5"
   },
   "eslintConfig": {

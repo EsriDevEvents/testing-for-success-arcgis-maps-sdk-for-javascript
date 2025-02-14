@@ -1,5 +1,5 @@
 import pixelmatch from "pixelmatch";
-import { PNG } from "pngjs";
+import { PNG } from "pngjs/browser";
 import {
   copyFileSync,
   existsSync,
@@ -40,6 +40,8 @@ export function snapshotTest(componentName: string, newImagePath: string) {
   const screenshotDirectory = "./__screenshots__";
 
   if (!existsSync(screenshotDirectory)) {
+    console.log(newImagePath);
+    console.log("Creating screenshot directory");
     mkdirSync(screenshotDirectory);
   }
 

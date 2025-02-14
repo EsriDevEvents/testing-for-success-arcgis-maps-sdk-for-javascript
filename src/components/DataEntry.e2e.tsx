@@ -1,8 +1,6 @@
 import { render } from "vitest-browser-react";
 import { expect, test } from "vitest";
 import DataEntry from "./DataEntry";
-import { page } from "@vitest/browser/context";
-// import { snapshotTest } from "../testing/snapshotTest";
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -36,14 +34,4 @@ test("loads and displays greeting", async () => {
     (baseElement.querySelector("#longitude") as unknown as { value: number })
       .value
   ).toBe(String(longitude));
-
-  await page.elementLocator(baseElement).screenshot({
-    path: "./screenshots/data-entry.png",
-  });
-
-  // const snapshotTestResult = snapshotTest("data-entry", screenshot);
-
-  // expect(snapshotTestResult).toBeGreaterThan(0);
-
-  expect(1).toBe(2);
 });

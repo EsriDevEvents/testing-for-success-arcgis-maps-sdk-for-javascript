@@ -2,8 +2,8 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    environment: "node",
     include: ["**/*.{test,spec,e2e}.?(c|m)[jt]s?(x)"],
+    exclude: ["**/node_modules/**", "__tests__/**"],
     setupFiles: ["./src/testing/setupFile.ts"],
     browser: {
       enabled: true,
@@ -11,8 +11,5 @@ export default defineConfig({
       instances: [{ browser: "chromium" }],
       viewport: { width: 800, height: 600 },
     },
-  },
-  define: {
-    "process.env": process.env,
   },
 });

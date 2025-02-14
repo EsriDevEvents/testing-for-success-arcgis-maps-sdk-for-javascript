@@ -31,13 +31,18 @@ map.add(pinLayer);
 const pointLayer = new GraphicsLayer();
 map.add(pointLayer);
 
-export default function MapContainer({ onMapLoad, onMapClick, loadedPoints}: MapContainerProps) {
-  const mapRef = useRef(null);
+export default function MapContainer({
+  onMapLoad,
+  onMapClick,
+  loadedPoints,
+}: MapContainerProps) {
+  const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (mapRef.current) {
       view.container = mapRef.current;
       view.when(() => {
+        mapRef.current?.classList.add("ready");
         onMapLoad();
       });
     }
@@ -46,14 +51,21 @@ export default function MapContainer({ onMapLoad, onMapClick, loadedPoints}: Map
   useEffect(() => {
     view.on("click", (event) => {
       // Determine if the user clicked on a point or a blank area...
-      view.hitTest(event, {include:[pointLayer]}).then((hits) => {
+      view.hitTest(event, { include: [pointLayer] }).then((hits) => {
         if (hits.results.length === 0) {
           // add a point to the map
           pinLayer.removeAll();
 
           const pinGraphic = new Graphic({
-            geometry: new Point({ latitude: event.mapPoint.latitude, longitude: event.mapPoint.longitude }),
-            symbol: new SimpleMarkerSymbol({ style: "x", size: 10, outline: {width: 3}}),
+            geometry: new Point({
+              latitude: event.mapPoint.latitude,
+              longitude: event.mapPoint.longitude,
+            }),
+            symbol: new SimpleMarkerSymbol({
+              style: "x",
+              size: 10,
+              outline: { width: 3 },
+            }),
           });
 
           pinLayer.add(pinGraphic);
@@ -69,22 +81,25 @@ export default function MapContainer({ onMapLoad, onMapClick, loadedPoints}: Map
     pointLayer.removeAll();
     loadedPoints.forEach((point) => {
       const pointGraphic = new Graphic({
-        geometry: new Point({latitude: point.latitude, longitude: point.longitude}),
+        geometry: new Point({
+          latitude: point.latitude,
+          longitude: point.longitude,
+        }),
         symbol: new SimpleMarkerSymbol({
           style: "circle",
           size: "10",
-          outline: { width: 1 }
+          outline: { width: 1 },
         }),
         attributes: { observation: point.observation },
         popupTemplate: {
           title: "Observation",
-          content: "{observation}"
-        }
+          content: "{observation}",
+        },
       });
       pointLayer.add(pointGraphic);
     });
     pinLayer.removeAll();
   }, [loadedPoints]);
 
-  return <div ref={mapRef} className="mapDiv"/>;
-};
+  return <div ref={mapRef} className="mapDiv" />;
+}
