@@ -29,7 +29,7 @@ export interface Observation {
 
 interface DataEntryProps {
   location: Location | null;
-  onSubmit: (observation: Observation) => void;
+  onSubmit: (observation: string) => void | Promise<void>;
 }
 
 export default function DataEntry({ location, onSubmit }: DataEntryProps) {
@@ -79,7 +79,10 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
           <div>
             <CalciteButton
               id="submitText"
-              onClick={() => onSubmit({ location, observation })}
+              onClick={() => {
+                onSubmit(observation);
+                setObservation("");
+              }}
             >
               Submit
             </CalciteButton>

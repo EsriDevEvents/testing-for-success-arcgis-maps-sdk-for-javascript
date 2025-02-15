@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import DataEntry from "../components/DataEntry";
-import MapContainer from "../components/MapContiainer";
+import MapContainer from "../components/MapContainer";
 import { waitFor, userEvent } from "@storybook/testing-library";
 import { sendkeys } from "../test-utils/interactions";
+import { loadObservations, saveObservation } from "../api/fetchData";
 
 import { expect } from "@storybook/jest";
 
@@ -29,17 +30,33 @@ const meta = {
   },
   decorators: [
     (Story, { args }) => {
-      const [mapPoint, setMapPoint] = useState({
-        latitude: args.location!.latitude,
-        longitude: args.location!.longitude,
-      });
+      const [currentPoint, setCurrentPoint] = useState<{
+        latitude: number;
+        longitude: number;
+      } | null>(args.location);
+      const [loadedPoints, setLoadedPoints] = useState([]);
+
+      const onSaveObservation = async (observation: string) => {
+        if (currentPoint !== null) {
+          console.log("Saving observation");
+          await saveObservation({
+            location: currentPoint,
+            observation,
+          });
+          await loadObservations().then(setLoadedPoints).catch(console.error);
+          setCurrentPoint(null);
+        }
+      };
+
+      // Load all of the current observations to the map
+      useEffect(() => {
+        loadObservations().then(setLoadedPoints).catch(console.error);
+      }, []);
 
       useEffect(() => {
-        setMapPoint({
-          latitude: args.location!.latitude,
-          longitude: args.location!.longitude,
-        });
+        setCurrentPoint(args.location);
       }, [args.location]);
+
       return (
         <CalciteShell contentBehind>
           <CalciteShellPanel slot="panel-start" position="start">
@@ -47,18 +64,16 @@ const meta = {
               <Story
                 args={{
                   ...args,
-                  location: {
-                    latitude: mapPoint.latitude,
-                    longitude: mapPoint.longitude,
-                  },
+                  location: currentPoint,
+                  onSubmit: onSaveObservation,
                 }}
               />
             </CalcitePanel>
           </CalciteShellPanel>
           <MapContainer
             onMapLoad={console.log}
-            onMapClick={(mapPoint) => setMapPoint(mapPoint)}
-            loadedPoints={[]}
+            onMapClick={(mapPoint) => setCurrentPoint(mapPoint)}
+            loadedPoints={loadedPoints}
           />
         </CalciteShell>
       );

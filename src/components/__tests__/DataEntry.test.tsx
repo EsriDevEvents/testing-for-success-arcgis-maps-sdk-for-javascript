@@ -1,12 +1,12 @@
-import { render } from "vitest-browser-react";
+import { render } from "@testing-library/react";
 import { expect, test } from "vitest";
-import DataEntry from "./DataEntry";
+import DataEntry from "../DataEntry";
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-test("loads and displays greeting", async () => {
+test("loads and displays longitude and latitude", async () => {
   const longitude = -118.78457706335006;
   const latitude = 34.04766593041692;
   // Render a React element into the DOM
