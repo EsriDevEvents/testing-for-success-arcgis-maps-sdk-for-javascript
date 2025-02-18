@@ -15,7 +15,7 @@ import {
   CalciteNotice,
 } from "@esri/calcite-components-react";
 
-import { useState } from "react";
+import { useRef } from "react";
 
 interface Location {
   latitude: number;
@@ -33,7 +33,7 @@ interface DataEntryProps {
 }
 
 export default function DataEntry({ location, onSubmit }: DataEntryProps) {
-  const [observation, setObservation] = useState<string>("");
+  const observationRef = useRef<HTMLCalciteInputElement | null>(null);
 
   return (
     <CalciteBlock open heading="Selected Location">
@@ -70,19 +70,16 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
             <CalciteLabel>
               Observation{" "}
               <CalciteInput
+                ref={observationRef}
                 id="textInput"
                 data-testid="textInput"
-                onCalciteInputChange={(e) => setObservation(e.target.value)}
               ></CalciteInput>
             </CalciteLabel>
           </div>
           <div>
             <CalciteButton
               id="submitText"
-              onClick={() => {
-                onSubmit(observation);
-                setObservation("");
-              }}
+              onClick={() => onSubmit(observationRef.current!.value)}
             >
               Submit
             </CalciteButton>

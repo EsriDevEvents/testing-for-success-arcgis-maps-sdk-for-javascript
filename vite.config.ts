@@ -6,7 +6,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3001,
+    port: 3000,
     proxy: {
       "/load": "http://localhost:4000",
       "/save": "http://localhost:4000",
@@ -17,7 +17,7 @@ export default defineConfig({
     exclude: ["**/node_modules/**", "__tests__/**"],
     environment: "jsdom",
     globals: true,
-    setupFiles: ["setupTests.ts", "./src/testing/setupFile.ts"],
+    setupFiles: ["setupTests.ts"],
     // viewport: { width: 800, height: 600 },
   },
 

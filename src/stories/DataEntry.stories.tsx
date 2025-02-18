@@ -86,11 +86,15 @@ const meta = {
 
     const observation = "This tests observation";
 
+    (document.querySelector("#textInput") as HTMLInputElement).focus();
+
     await sendkeys(
       document.querySelector("#textInput") as HTMLInputElement,
       observation,
       100
     );
+
+    await userEvent.tab();
 
     await expect(document.querySelector("#textInput")).toHaveValue(observation);
 
@@ -107,8 +111,8 @@ type Story = StoryObj<typeof meta>;
 export const Test: Story = {
   args: {
     location: {
-      latitude: 300,
-      longitude: -49,
+      latitude: 34.0250437858476,
+      longitude: -118.80448501586915,
     },
     onSubmit: (observation) => console.log(observation),
   },
