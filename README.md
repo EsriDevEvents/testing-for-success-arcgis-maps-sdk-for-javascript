@@ -49,7 +49,7 @@ Optimization is another important area. Reducing the total testing time while ge
 
 **E2E Testing:**
 
-- mock services: Such interaction tests can be optimized by applying mock services. Instead of making network calls, such calls can be intercepted locally and be returned with expected data. In this demo, we instead of making direct request to arcgis.com, makes request to the local server, localhost:4000, and store/retrieve observations
+- mock services: Such interaction tests can be optimized by applying mock services. Instead of making network calls, such calls can be intercepted locally and be returned with expected data. In this demo, we instead of making direct request to arcgis.com, makes request to the local server, http://localhost:4000, and store/retrieve observations
 
 **Screenshot Testing:**
 
@@ -57,4 +57,14 @@ Optimization is another important area. Reducing the total testing time while ge
 
 ## CI
 
-Test should reside on the CI pipelines to ensure robust and safe application production.
+Test should reside on the CI pipelines to ensure robust and safe application production. There few options to choose when deciding what CI/CD pipeline to use.
+
+- Github Actions: For its simplicity, maintainability, transparency, and increased supports, Github Actions is a great CI/CD framework to integrate.
+
+In our Github Actions example, we will clone the repository, test, and produce the result on pull request.
+
+Listed here are some useful actions provided from Github itself.
+
+- actions/checkout: Checks out a repository so workflow jobs can access and modify its files. It enables actions to interact with the repository’s code, such as running tests, building, or deploying applications.
+- actions/setup-node: sets up a Node.js environment in a GitHub Actions workflow. It ensures the correct Node.js version is installed and configures the environment for package management and caching.
+- actions/github-script: allows you to run JavaScript directly in your GitHub Actions workflow using the GitHub API. It enables custom automation, such as managing issues, PRs, labels, and repository metadata.
