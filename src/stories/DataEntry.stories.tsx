@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import DataEntry from "../components/DataEntry";
-import MapContainer from "../components/MapContiainer";
+import MapContainer from "../components/MapContainer";
 import { waitFor, userEvent } from "@storybook/testing-library";
 import { sendkeys } from "../test-utils/interactions";
+import { loadObservations, saveObservation } from "../api/fetchData";
 
 import { expect } from "@storybook/jest";
 
@@ -11,7 +12,7 @@ import {
   CalciteShellPanel,
   CalcitePanel,
 } from "@esri/calcite-components-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const meta = {
   title: "Data Entry",
@@ -29,10 +30,33 @@ const meta = {
   },
   decorators: [
     (Story, { args }) => {
-      const [mapPoint, setMapPoint] = useState({
-        latitude: args.location!.latitude,
-        longitude: args.location!.longitude,
-      });
+      const [currentPoint, setCurrentPoint] = useState<{
+        latitude: number;
+        longitude: number;
+      } | null>(args.location);
+      const [loadedPoints, setLoadedPoints] = useState([]);
+
+      const onSaveObservation = async (observation: string) => {
+        if (currentPoint !== null) {
+          console.log("Saving observation");
+          await saveObservation({
+            location: currentPoint,
+            observation,
+          });
+          await loadObservations().then(setLoadedPoints).catch(console.error);
+          setCurrentPoint(null);
+        }
+      };
+
+      // Load all of the current observations to the map
+      useEffect(() => {
+        loadObservations().then(setLoadedPoints).catch(console.error);
+      }, []);
+
+      useEffect(() => {
+        setCurrentPoint(args.location);
+      }, [args.location]);
+
       return (
         <CalciteShell contentBehind>
           <CalciteShellPanel slot="panel-start" position="start">
@@ -40,20 +64,16 @@ const meta = {
               <Story
                 args={{
                   ...args,
-                  location: {
-                    latitude: mapPoint.latitude,
-                    longitude: mapPoint.longitude,
-                  },
+                  location: currentPoint,
+                  onSubmit: onSaveObservation,
                 }}
               />
             </CalcitePanel>
           </CalciteShellPanel>
           <MapContainer
-            onMapLoad={() => {
-              console.log("Map loaded");
-            }}
-            onMapClick={(mapPoint) => setMapPoint(mapPoint)}
-            loadedPoints={[]}
+            onMapLoad={console.log}
+            onMapClick={(mapPoint) => setCurrentPoint(mapPoint)}
+            loadedPoints={loadedPoints}
           />
         </CalciteShell>
       );
@@ -64,13 +84,17 @@ const meta = {
       expect(document.querySelector("#textInput")).not.toBeNull()
     );
 
-    const observation = "This is a test observation";
+    const observation = "This tests observation";
+
+    (document.querySelector("#textInput") as HTMLInputElement).focus();
 
     await sendkeys(
       document.querySelector("#textInput") as HTMLInputElement,
       observation,
       100
     );
+
+    await userEvent.tab();
 
     await expect(document.querySelector("#textInput")).toHaveValue(observation);
 
@@ -87,9 +111,12 @@ type Story = StoryObj<typeof meta>;
 export const Test: Story = {
   args: {
     location: {
-      latitude: 300,
-      longitude: -49,
+      latitude: 34.0250437858476,
+      longitude: -118.80448501586915,
     },
     onSubmit: (observation) => console.log(observation),
   },
 };
+// TODO: Add docs on testings we covered, how to run them, e.g. vitest, storybook.
+// TODO: try to implement screenshot testing.
+// TODO

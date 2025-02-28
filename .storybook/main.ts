@@ -8,6 +8,9 @@ const config: StorybookConfig = {
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
   ],
+  core: {
+    builder: "@storybook/builder-vite", // 👈 The builder enabled here.
+  },
   framework: {
     name: "@storybook/react-vite",
     options: {},
@@ -33,5 +36,18 @@ const config: StorybookConfig = {
     </style>
     ${head}
   `,
+  async viteFinal(config) {
+    // Merge custom configuration into the default config
+    const { mergeConfig } = await import("vite");
+
+    return mergeConfig(config, {
+      server: {
+        proxy: {
+          "/load": "http://localhost:4000",
+          "/save": "http://localhost:4000",
+        },
+      },
+    });
+  },
 };
 export default config;
