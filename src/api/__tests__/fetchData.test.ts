@@ -1,72 +1,49 @@
-import fetchMock from "@fetch-mock/vitest";
-import { afterAll, assert, beforeAll, beforeEach, describe, test } from "vitest";
+import { beforeEach, describe, vi, Mock } from "vitest";
 import { loadObservations, saveObservation } from "../fetchData";
-import { Observation } from "../../components/DataEntry";
+import { Observation } from "../../types";
 
-
-describe("loadObservations", () => {
-  beforeAll(() => {
-    fetchMock.mockGlobal();
-  });
-
-  beforeEach(() => {
-    fetchMock.mockClear();
-    fetchMock.config.allowRelativeUrls = true;
-  });
-
-  afterAll(() => {
-    fetchMock.unmockGlobal();
-  });
-
-  test("it returns an array", async () => {
-    // Have fetchMock return a specific value
-    fetchMock.get("*", JSON.stringify([]));
-
-    const obs = await loadObservations()
-    assert.sameMembers(obs, []);
-
-    const callLog = fetchMock.callHistory.callLogs[0];
-    assert.exists(callLog);
-    assert.equal(callLog.url, "http://localhost:3000/load");
-  });
-
-  test("it throws an exception", async () => {
-    // Force fetch to throw an error
-    fetchMock.get("*", 500, "expected");
-
-    try {
-      await loadObservations()
-      assert.fail("No Exception thrown");
-    } catch (error) {
-    }
-  });
+beforeEach(() => {
+  globalThis.fetch = vi.fn();
 });
 
-describe("saveObservation", () => {
-  const observation:Observation = { location: { latitude: 0, longitude: 0 }, observation: "test" };
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
-  beforeAll(() => {
-    fetchMock.mockGlobal();
+describe("fetchData functions", () => {
+  it("loadObservations should fetch and return data", async () => {
+    const mockData: Observation[] = [
+      { latitude: 0, longitude: 0, observation: "test" },
+    ];
+
+    (fetch as Mock).mockResolvedValue({
+      json: vi.fn().mockResolvedValue(mockData),
+    });
+
+    const data = await loadObservations();
+    expect(fetch).toHaveBeenCalledWith("/load");
+    expect(data).toEqual(mockData);
   });
-  
-  beforeEach(() => {
-    fetchMock.mockClear();
-    fetchMock.config.allowRelativeUrls = true;
-  });
 
-  afterAll(() => {
-    fetchMock.unmockGlobal();
-  });
+  it("saveObservation should send a POST request and return response", async () => {
+    const mockObservation: Observation = {
+      latitude: 0,
+      longitude: 0,
+      observation: "test",
+    };
+    const mockResponse = { response: "OK" };
 
-  test("it sends the observations", async () => {
-    fetchMock.post("*", { response: "ok"});
+    (fetch as Mock).mockResolvedValue({
+      json: vi.fn().mockResolvedValue(mockResponse),
+    });
 
-    const response = await saveObservation(observation);
+    const data = await saveObservation(mockObservation);
 
-    assert.deepEqual(response, {response: "ok"});
-    const callLog = fetchMock.callHistory.callLogs[0];
-    assert.exists(callLog);
-    assert.equal(callLog.url, "http://localhost:3000/save");
-    assert.equal(callLog.options.body, JSON.stringify(observation));
+    expect(fetch).toHaveBeenCalledWith("/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(mockObservation),
+    });
+    expect(data).toEqual(mockResponse);
   });
 });

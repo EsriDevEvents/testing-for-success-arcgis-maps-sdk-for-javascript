@@ -18,19 +18,19 @@
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@arcgis/core": "^4.31.6",
-    "@arcgis/map-components-react": "^4.31.6",
-    "@esri/calcite-components-react": "^2.13.2",
+    "@arcgis/core": "^4.32.3",
+    "@arcgis/map-components": "^4.32.5",
+    "@esri/calcite-components": "^3.0.3",
     "@storybook/test-runner": "^0.21.0",
+    "@types/express": "^5.0.0",
     "express": "^4.21.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "vitest-browser-react": "^0.1.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.4",
     "@eslint/js": "^9.17.0",
-    "@fetch-mock/vitest": "^0.2.8",
     "@playwright/test": "^1.50.1",
     "@storybook/addon-essentials": "^8.5.0",
     "@storybook/addon-interactions": "^8.5.0",
@@ -55,6 +55,7 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "eslint-plugin-storybook": "^0.11.2",
     "globals": "^15.14.0",
+    "happy-dom": "^17.1.8",
     "jsdom": "^26.0.0",
     "nodemon": "^3.1.9",
     "playwright": "^1.50.1",

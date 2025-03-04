@@ -9,11 +9,9 @@ const app = express();
 app.use(express.json());
 
 app.post("/save", (req, res) => {
-  console.log(req.body);
-
   db.push(req.body);
 
-  res.status(200).send({response: "OK"});
+  res.status(200).send({ response: "OK" });
 });
 
 app.get("/load", (req, res) => {

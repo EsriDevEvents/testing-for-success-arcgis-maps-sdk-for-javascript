@@ -1,4 +1,5 @@
 /// <reference types="vitest/config" />
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -15,12 +16,21 @@ export default defineConfig({
   test: {
     include: ["**/__tests__/**/*.[jt]s?(x)"],
     exclude: ["**/node_modules/**", "__tests__/**"],
-    environment: "jsdom",
+    environment: "happy-dom",
     globals: true,
     setupFiles: ["setupTests.ts"],
+    browser: {
+      enabled: true,
+      provider: "playwright",
+      instances: [
+        {
+          browser: "chromium",
+          viewport: { width: 800, height: 600 },
+        },
+      ],
+    },
     // viewport: { width: 800, height: 600 },
   },
-
   // test: {
   //   exclude: ["**/node_modules/**", "__tests__/**"],
   //   setupFiles: ["./src/testing/setupFile.ts"],
