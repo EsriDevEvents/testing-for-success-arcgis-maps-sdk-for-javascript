@@ -7,7 +7,7 @@ vi.mock("@arcgis/core/layers/GraphicsLayer", () => {
     default: vi.fn().mockImplementation(() => {
       const graphics = {
         removeAll: () => null,
-        push: (graphic: any) => null,
+        push: () => null,
       };
       return {
         graphics,

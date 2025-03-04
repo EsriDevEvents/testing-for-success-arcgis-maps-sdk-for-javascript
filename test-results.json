@@ -1,6 +1,6 @@
 {
-  "numTotalTestSuites": 5,
-  "numPassedTestSuites": 5,
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 6,
   "numFailedTestSuites": 0,
   "numPendingTestSuites": 0,
   "numTotalTests": 5,
@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1741109059066,
+  "startTime": 1741115888543,
   "success": true,
   "testResults": [
     {
@@ -34,7 +34,7 @@
           "fullName": "fetchData functions loadObservations should fetch and return data",
           "status": "passed",
           "title": "loadObservations should fetch and return data",
-          "duration": 2,
+          "duration": 2.599999999976717,
           "failureMessages": [],
           "meta": {}
         },
@@ -43,13 +43,13 @@
           "fullName": "fetchData functions saveObservation should send a POST request and return response",
           "status": "passed",
           "title": "saveObservation should send a POST request and return response",
-          "duration": 0.7999999998137355,
+          "duration": 0.7000000000698492,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1741109060460,
-      "endTime": 1741109060462.8,
+      "startTime": 1741115951705,
+      "endTime": 1741115951708.7,
       "status": "passed",
       "message": "",
       "name": "C:/Users/danie/Desktop/projects/testing-for-success-arcgis-maps-sdk-for-javascript/src/api/__tests__/fetchData.test.ts"
@@ -57,17 +57,17 @@
     {
       "assertionResults": [
         {
-          "ancestorTitles": [],
-          "fullName": "renders DataEntry, handles properties, and displays latitude and longitude",
+          "ancestorTitles": ["DataEntry"],
+          "fullName": "DataEntry renders DataEntry, handles properties, and displays latitude and longitude",
           "status": "passed",
           "title": "renders DataEntry, handles properties, and displays latitude and longitude",
-          "duration": 1031.2000000001863,
+          "duration": 1058.3999999999069,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1741109060568,
-      "endTime": 1741109061599.2,
+      "startTime": 1741115951875,
+      "endTime": 1741115952933.4,
       "status": "passed",
       "message": "",
       "name": "C:/Users/danie/Desktop/projects/testing-for-success-arcgis-maps-sdk-for-javascript/src/components/__tests__/DataEntry.test.tsx"
@@ -79,7 +79,7 @@
           "fullName": "MapContainer webgl enabled",
           "status": "passed",
           "title": "webgl enabled",
-          "duration": 6.900000000372529,
+          "duration": 21,
           "failureMessages": [],
           "meta": {}
         },
@@ -88,13 +88,13 @@
           "fullName": "MapContainer renders and trigger onMapLoad when map is ready",
           "status": "passed",
           "title": "renders and trigger onMapLoad when map is ready",
-          "duration": 646.0999999996275,
+          "duration": 2147.20000000007,
           "failureMessages": [],
           "meta": {}
         }
       ],
-      "startTime": 1741109061459,
-      "endTime": 1741109062112.1,
+      "startTime": 1741115953128,
+      "endTime": 1741115955296.2,
       "status": "passed",
       "message": "",
       "name": "C:/Users/danie/Desktop/projects/testing-for-success-arcgis-maps-sdk-for-javascript/src/components/__tests__/MapContainer.test.tsx"

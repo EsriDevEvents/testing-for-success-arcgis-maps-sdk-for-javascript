@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 *storybook.log
-results.json
+test-results.json
 storybook-static
 __tests__/**/*-snapshots
 
