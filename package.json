@@ -14,7 +14,7 @@
     "build:storybook": "storybook build",
     "test:storybook": "test-storybook --json --outputFile results.json",
     "test:playwright": "npx playwright install && npx playwright test --ui",
-    "test": "vitest",
+    "test": "vitest run --browser.headless",
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {

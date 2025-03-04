@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import { Location } from "../types";
+
 import "@esri/calcite-components/dist/components/calcite-block";
 import "@esri/calcite-components/dist/components/calcite-block-section";
 import "@esri/calcite-components/dist/components/calcite-button";
@@ -6,10 +9,7 @@ import "@esri/calcite-components/dist/components/calcite-input-number";
 import "@esri/calcite-components/dist/components/calcite-label";
 import "@esri/calcite-components/dist/components/calcite-notice";
 
-import { useRef } from "react";
-import { Location } from "../types";
-
-interface DataEntryProps {
+export interface DataEntryProps {
   location: Location | null;
   onSubmit: (observation: string) => void | Promise<void>;
 }
@@ -50,7 +50,7 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
           </div>
           <div>
             <calcite-label>
-              Observation{" "}
+              Observation
               <calcite-input
                 ref={observationRef}
                 id="textInput"
@@ -60,8 +60,10 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
           </div>
           <div>
             <calcite-button
-              id="submitText"
-              onClick={() => onSubmit(observationRef.current!.value)}
+              id="submit-button"
+              onClick={() => {
+                onSubmit(observationRef.current!.value);
+              }}
             >
               Submit
             </calcite-button>

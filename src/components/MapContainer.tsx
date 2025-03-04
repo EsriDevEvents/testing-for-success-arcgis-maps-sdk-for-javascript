@@ -62,7 +62,7 @@ const MapContainer = ({
   useEffect(() => {
     if (observations.length > 0 && mapReady) {
       pointLayerRef.current.graphics.removeAll();
-      observations.forEach(({ latitude, longitude }) => {
+      observations.forEach(({ latitude, longitude, observation }) => {
         const point = new Graphic({
           geometry: new Point({ latitude, longitude }),
           symbol: new SimpleMarkerSymbol({
@@ -70,10 +70,11 @@ const MapContainer = ({
             size: 10,
             outline: { width: 1 },
           }),
-          attributes: { type: "observation" },
+          attributes: { latitude, longitude, observation },
           popupTemplate: {
             title: "Observation",
-            content: "{observation}",
+            content:
+              "<b>Latitude. </b> {latitude}<br/><b>Longitude. </b> {longitude}<br/><br/><b>Observation</b><br/>{observation}",
           },
         });
         pointLayerRef.current.graphics.push(point);

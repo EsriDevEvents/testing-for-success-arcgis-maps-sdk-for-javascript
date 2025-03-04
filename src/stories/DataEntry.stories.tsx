@@ -1,18 +1,17 @@
+import React, { useEffect, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import DataEntry from "../components/DataEntry";
+import DataEntry, { DataEntryProps } from "../components/DataEntry";
 import MapContainer from "../components/MapContainer";
 import { waitFor, userEvent } from "@storybook/testing-library";
 import { sendkeys } from "../test-utils/interactions";
-import { loadObservations, saveObservation } from "../api/fetchData";
+
+import { Location, Observation } from "../types";
 
 import { expect } from "@storybook/jest";
 
-import {
-  CalciteShell,
-  CalciteShellPanel,
-  CalcitePanel,
-} from "@esri/calcite-components-react";
-import { useEffect, useState } from "react";
+import "@esri/calcite-components/components/calcite-shell";
+import "@esri/calcite-components/components/calcite-shell-panel";
+import "@esri/calcite-components/components/calcite-panel";
 
 const meta = {
   title: "Data Entry",
@@ -30,52 +29,40 @@ const meta = {
   },
   decorators: [
     (Story, { args }) => {
-      const [currentPoint, setCurrentPoint] = useState<{
-        latitude: number;
-        longitude: number;
-      } | null>(args.location);
-      const [loadedPoints, setLoadedPoints] = useState([]);
+      const [currentPoint, setCurrentPoint] = useState<Location | null>(
+        args.location
+      );
+      const [observations, setObservations] = useState<Observation[]>([]);
 
-      const onSaveObservation = async (observation: string) => {
+      const onSaveObservation = (observation: string) => {
         if (currentPoint !== null) {
-          console.log("Saving observation");
-          await saveObservation({
-            location: currentPoint,
-            observation,
-          });
-          await loadObservations().then(setLoadedPoints).catch(console.error);
+          setObservations([...observations, { ...currentPoint, observation }]);
           setCurrentPoint(null);
         }
       };
-
-      // Load all of the current observations to the map
-      useEffect(() => {
-        loadObservations().then(setLoadedPoints).catch(console.error);
-      }, []);
 
       useEffect(() => {
         setCurrentPoint(args.location);
       }, [args.location]);
 
+      console.log({ observations });
+
       return (
-        <CalciteShell contentBehind>
-          <CalciteShellPanel slot="panel-start" position="start">
-            <CalcitePanel heading="Data Entry">
-              <Story
-                args={{
-                  ...args,
-                  location: currentPoint,
-                  onSubmit: onSaveObservation,
-                }}
-              />
-            </CalcitePanel>
-          </CalciteShellPanel>
+        <calcite-shell contentBehind={true}>
+          <calcite-shell-panel slot="panel-start" position="start">
+            <calcite-panel heading="Data Entry">
+              {React.cloneElement(Story(), {
+                location: currentPoint,
+                onSubmit: args.onSubmit ?? onSaveObservation,
+              })}
+            </calcite-panel>
+          </calcite-shell-panel>
           <MapContainer
-            onMapLoad={console.log}
-            onMapClick={(mapPoint) => setCurrentPoint(mapPoint)}
-            loadedPoints={loadedPoints}
+            location={currentPoint}
+            setLocation={setCurrentPoint}
+            observations={observations}
           />
-        </CalciteShell>
+        </calcite-shell>
       );
     },
   ],
@@ -94,12 +81,13 @@ const meta = {
       100
     );
 
-    await userEvent.tab();
-
     await expect(document.querySelector("#textInput")).toHaveValue(observation);
 
     await userEvent.click(
-      document.querySelector("#submitText") as HTMLButtonElement
+      document.querySelector("#submit-button") as HTMLButtonElement,
+      {
+        delay: 500,
+      }
     );
   },
 } satisfies Meta<typeof DataEntry>;
@@ -114,9 +102,5 @@ export const Test: Story = {
       latitude: 34.0250437858476,
       longitude: -118.80448501586915,
     },
-    onSubmit: (observation) => console.log(observation),
-  },
+  } as DataEntryProps,
 };
-// TODO: Add docs on testings we covered, how to run them, e.g. vitest, storybook.
-// TODO: try to implement screenshot testing.
-// TODO

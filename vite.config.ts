@@ -15,8 +15,10 @@ export default defineConfig({
   },
   test: {
     include: ["**/__tests__/**/*.[jt]s?(x)"],
+    reporters: ["default", "json"],
+    outputFile: "test-results.json",
     exclude: ["**/node_modules/**", "__tests__/**"],
-    environment: "happy-dom",
+    environment: "jsdom",
     globals: true,
     setupFiles: ["setupTests.ts"],
     browser: {
@@ -29,16 +31,5 @@ export default defineConfig({
         },
       ],
     },
-    // viewport: { width: 800, height: 600 },
   },
-  // test: {
-  //   exclude: ["**/node_modules/**", "__tests__/**"],
-  //   setupFiles: ["./src/testing/setupFile.ts"],
-  //   browser: {
-  //     enabled: true,
-  //     provider: "playwright",
-  //     instances: [{ browser: "chromium" }],
-  //     viewport: { width: 800, height: 600 },
-  //   },
-  // },
 });

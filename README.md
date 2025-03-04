@@ -68,3 +68,10 @@ Listed here are some useful actions provided from Github itself.
 - actions/checkout: Checks out a repository so workflow jobs can access and modify its files. It enables actions to interact with the repository’s code, such as running tests, building, or deploying applications.
 - actions/setup-node: sets up a Node.js environment in a GitHub Actions workflow. It ensures the correct Node.js version is installed and configures the environment for package management and caching.
 - actions/github-script: allows you to run JavaScript directly in your GitHub Actions workflow using the GitHub API. It enables custom automation, such as managing issues, PRs, labels, and repository metadata.
+
+### Optimization:
+
+- Breaking into shards
+- Assign it to the correct assignee
+- Disable merge if validation fails
+- Maybe some types of retry
