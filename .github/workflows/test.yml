@@ -22,6 +22,10 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Install playwrights
+        run: |
+          npx -y playwright install
+
       - name: Run Tests
         run: npm run test
 
