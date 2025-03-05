@@ -15,6 +15,8 @@ const config: StorybookConfig = {
     name: "@storybook/react-vite",
     options: {},
   },
+  // inserts calcite style
+  // update .docs-story to display the map
   previewHead: (head) => `
     <link rel="stylesheet" href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/light/main.css" />
     <style>
@@ -25,18 +27,5 @@ const config: StorybookConfig = {
     </style>
     ${head}
   `,
-  async viteFinal(config) {
-    // Merge custom configuration into the default config
-    const { mergeConfig } = await import("vite");
-
-    return mergeConfig(config, {
-      server: {
-        proxy: {
-          "/load": "http://localhost:4000",
-          "/save": "http://localhost:4000",
-        },
-      },
-    });
-  },
 };
 export default config;

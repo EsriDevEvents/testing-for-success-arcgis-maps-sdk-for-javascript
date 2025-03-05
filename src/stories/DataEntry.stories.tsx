@@ -45,8 +45,6 @@ const meta = {
         setCurrentPoint(args.location);
       }, [args.location]);
 
-      console.log({ observations });
-
       return (
         <calcite-shell contentBehind={true}>
           <calcite-shell-panel slot="panel-start" position="start">

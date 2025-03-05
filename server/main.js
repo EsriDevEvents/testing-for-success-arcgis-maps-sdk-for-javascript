@@ -1,4 +1,4 @@
-// const express = require("express");
+// simple express server to handle saving and loading observations
 import express from "express";
 
 const port = 4000;

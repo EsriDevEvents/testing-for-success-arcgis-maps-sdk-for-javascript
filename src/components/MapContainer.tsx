@@ -34,6 +34,9 @@ const MapContainer = ({
       map.addLayer(pinLayerRef.current);
       map.addLayer(pointLayerRef.current);
 
+      // append ready to the class for testing
+      map.classList.add("ready");
+
       if (onMapLoad) {
         onMapLoad();
       }
