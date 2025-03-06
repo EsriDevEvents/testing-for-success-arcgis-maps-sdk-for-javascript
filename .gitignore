@@ -30,5 +30,7 @@ test-results.json
 storybook-static
 __tests__/**/*-snapshots
 
+coverage
+
 playwright-report
 test-results
