@@ -53,8 +53,8 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
               Observation
               <calcite-input
                 ref={observationRef}
-                id="textInput"
-                data-testid="textInput"
+                id="observation"
+                data-testid="observation"
               ></calcite-input>
             </calcite-label>
           </div>

@@ -4,17 +4,17 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "build": "tsc -b && vite build",
+    "build:storybook": "storybook build",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:web\"",
     "dev:server": "nodemon server/main.js",
     "dev:web": "vite",
-    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build:storybook": "storybook build",
-    "test:storybook": "test-storybook --json --outputFile results.json",
     "test": "vitest run --browser.headless",
     "test:coverage": "vitest --coverage",
+    "test:storybook": "test-storybook --json --outputFile results.json",
     "test:ui": "vitest",
     "test:visual": "npx playwright install && npx playwright test --ui"
   },
@@ -30,7 +30,6 @@
     "vitest-browser-react": "^0.1.1"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^3.2.4",
     "@eslint/js": "^9.17.0",
     "@playwright/test": "^1.50.1",
     "@storybook/addon-essentials": "^8.5.0",

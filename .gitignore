@@ -12,8 +12,6 @@ dist
 dist-ssr
 *.local
 
-test-results.json
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -26,9 +24,11 @@ test-results.json
 *.sw?
 
 *storybook.log
-test-results.json
 storybook-static
+
+test-results.json
 __visualregression__/**/*-snapshots
+results.json
 
 coverage
 

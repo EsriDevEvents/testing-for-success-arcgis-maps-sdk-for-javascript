@@ -20,3 +20,6 @@ export const sendkeys = (
       count++;
     }, timer);
   });
+
+export const wait = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

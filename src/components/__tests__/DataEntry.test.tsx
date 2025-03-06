@@ -1,10 +1,7 @@
 import { render } from "vitest-browser-react";
 import { expect, test } from "vitest";
 import DataEntry from "../DataEntry";
-
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { wait } from "../../test-utils/interactions";
 
 describe("DataEntry", () => {
   test("renders DataEntry, handles properties, and displays latitude and longitude", async () => {

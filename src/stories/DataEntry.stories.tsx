@@ -66,20 +66,22 @@ const meta = {
   ],
   play: async () => {
     await waitFor(() =>
-      expect(document.querySelector("#textInput")).not.toBeNull()
+      expect(document.querySelector("#observation")).not.toBeNull()
     );
 
     const observation = "This tests observation";
 
-    (document.querySelector("#textInput") as HTMLInputElement).focus();
+    (document.querySelector("#observation") as HTMLInputElement).focus();
 
     await sendkeys(
-      document.querySelector("#textInput") as HTMLInputElement,
+      document.querySelector("#observation") as HTMLInputElement,
       observation,
       100
     );
 
-    await expect(document.querySelector("#textInput")).toHaveValue(observation);
+    await expect(document.querySelector("#observation")).toHaveValue(
+      observation
+    );
 
     await userEvent.click(
       document.querySelector("#submit-button") as HTMLButtonElement,

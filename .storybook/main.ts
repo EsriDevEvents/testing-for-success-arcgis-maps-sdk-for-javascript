@@ -5,7 +5,6 @@ const config: StorybookConfig = {
   addons: [
     "@storybook/addon-onboarding",
     "@storybook/addon-essentials",
-    "@chromatic-com/storybook",
     "@storybook/addon-interactions",
   ],
   core: {
@@ -16,7 +15,7 @@ const config: StorybookConfig = {
     options: {},
   },
   // inserts calcite style
-  // update .docs-story to display the map
+  // update .docs-story to display the map, otherwise story renders blank
   previewHead: (head) => `
     <link rel="stylesheet" href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/light/main.css" />
     <style>
