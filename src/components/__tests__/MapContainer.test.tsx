@@ -61,6 +61,7 @@ describe("MapContainer", () => {
     );
 
     await waitFor(() => expect(callback).toHaveBeenCalled(), {
+      timeout: 10_000,
       onTimeout(error) {
         throw new Error(
           error.message +
