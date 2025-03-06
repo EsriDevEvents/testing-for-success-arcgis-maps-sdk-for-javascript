@@ -1,102 +1,122 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, Dispatch, SetStateAction, useState } from "react";
+import type { Location, Observation } from "../types";
 
-import Map from "@arcgis/core/Map"; // Import the Map class from the arcgis core library
-import MapView from "@arcgis/core/views/MapView";
+import "@arcgis/map-components/components/arcgis-map";
+import "@arcgis/map-components/components/arcgis-zoom";
+
 import Graphic from "@arcgis/core/Graphic";
+import Point from "@arcgis/core/geometry/Point";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
-import Point from "@arcgis/core/geometry/Point";
-
-import "./MapContainer.css";
 
 interface MapContainerProps {
-  onMapLoad: () => void;
-  onMapClick: (event: any) => void;
-  loadedPoints: any[];
+  setLocation: Dispatch<SetStateAction<Location | null>>;
+  observations: Observation[];
+  location: Location | null;
+  onMapLoad?: () => void;
+  onMapClick?: () => void;
 }
 
-const map = new Map({
-  basemap: "streets-navigation-vector",
-});
-
-const view = new MapView({
-  map: map,
-  center: [-118.805, 34.027],
-  zoom: 13,
-});
-
-const pinLayer = new GraphicsLayer();
-map.add(pinLayer);
-
-const pointLayer = new GraphicsLayer();
-map.add(pointLayer);
-
-export default function MapContainer({
+const MapContainer = ({
+  setLocation,
+  observations,
+  location,
   onMapLoad,
   onMapClick,
-  loadedPoints,
-}: MapContainerProps) {
-  const mapRef = useRef<HTMLDivElement>(null);
+}: MapContainerProps) => {
+  const mapRef = useRef<HTMLArcgisMapElement>(null);
+  const pinLayerRef = useRef(new GraphicsLayer());
+  const pointLayerRef = useRef(new GraphicsLayer());
+  const [mapReady, setMapReady] = useState(false);
 
   useEffect(() => {
-    if (mapRef.current) {
-      view.container = mapRef.current;
-      view.when(() => {
-        mapRef.current?.classList.add("ready");
+    if (mapReady && mapRef.current) {
+      const map = mapRef.current;
+      map.addLayer(pinLayerRef.current);
+      map.addLayer(pointLayerRef.current);
+
+      // append ready to the class for testing
+      map.classList.add("ready");
+
+      if (onMapLoad) {
         onMapLoad();
+      }
+    }
+  }, [mapReady]);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    if (location) {
+      pinLayerRef.current.graphics.removeAll();
+      const { latitude, longitude } = location;
+      const pin = new Graphic({
+        geometry: new Point({ latitude, longitude }),
+        symbol: new SimpleMarkerSymbol({
+          style: "x",
+          size: 10,
+          outline: { width: 3 },
+        }),
+      });
+      pinLayerRef.current.graphics.push(pin);
+    } else {
+      pinLayerRef.current.graphics.removeAll();
+    }
+  }, [location, mapReady]);
+
+  useEffect(() => {
+    if (observations.length > 0 && mapReady) {
+      pointLayerRef.current.graphics.removeAll();
+      observations.forEach(({ latitude, longitude, observation }) => {
+        const point = new Graphic({
+          geometry: new Point({ latitude, longitude }),
+          symbol: new SimpleMarkerSymbol({
+            style: "circle",
+            size: 10,
+            outline: { width: 1 },
+          }),
+          attributes: { latitude, longitude, observation },
+          popupTemplate: {
+            title: "Observation",
+            content:
+              "<b>Latitude. </b> {latitude}<br/><b>Longitude. </b> {longitude}<br/><br/><b>Observation</b><br/>{observation}",
+          },
+        });
+        pointLayerRef.current.graphics.push(point);
       });
     }
-  }, [mapRef]);
+  }, [observations, mapReady]);
 
-  useEffect(() => {
-    view.on("click", (event) => {
-      // Determine if the user clicked on a point or a blank area...
-      view.hitTest(event, { include: [pointLayer] }).then((hits) => {
-        if (hits.results.length === 0) {
-          // add a point to the map
-          pinLayer.removeAll();
+  return (
+    <arcgis-map
+      ref={mapRef}
+      basemap="streets-navigation-vector"
+      zoom={13}
+      center={[-118.805, 34.027]}
+      onarcgisViewReadyChange={(e) => {
+        setMapReady(e.currentTarget.ready);
+      }}
+      onarcgisViewClick={async (e) => {
+        const { latitude, longitude } = e.detail.mapPoint;
+        const view = mapRef.current!.view;
+        const { x, y } = e.detail;
 
-          const pinGraphic = new Graphic({
-            geometry: new Point({
-              latitude: event.mapPoint.latitude,
-              longitude: event.mapPoint.longitude,
-            }),
-            symbol: new SimpleMarkerSymbol({
-              style: "x",
-              size: 10,
-              outline: { width: 3 },
-            }),
-          });
+        const { results } = await view.hitTest(
+          { x, y },
+          { include: pointLayerRef.current }
+        );
 
-          pinLayer.add(pinGraphic);
-
-          // Call event handler
-          onMapClick(event.mapPoint);
+        if (results.length === 0) {
+          setLocation({ latitude: latitude!, longitude: longitude! });
         }
-      });
-    });
-  }, [onMapClick]);
 
-  useEffect(() => {
-    pointLayer.removeAll();
-    loadedPoints.forEach((point) => {
-      const pointGraphic = new Graphic({
-        geometry: new Point({ ...point.location }),
-        symbol: new SimpleMarkerSymbol({
-          style: "circle",
-          size: "10",
-          outline: { width: 1 },
-        }),
-        attributes: { observation: point.observation },
-        popupTemplate: {
-          title: "Observation",
-          content: "{observation}",
-        },
-      });
-      pointLayer.add(pointGraphic);
-    });
-    pinLayer.removeAll();
-  }, [loadedPoints]);
+        if (onMapClick) {
+          onMapClick();
+        }
+      }}
+    >
+      <arcgis-zoom position="top-right"></arcgis-zoom>
+    </arcgis-map>
+  );
+};
 
-  return <div ref={mapRef} className="mapDiv" />;
-}
+export default MapContainer;

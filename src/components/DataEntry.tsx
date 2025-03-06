@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import { Location } from "../types";
+
 import "@esri/calcite-components/dist/components/calcite-block";
 import "@esri/calcite-components/dist/components/calcite-block-section";
 import "@esri/calcite-components/dist/components/calcite-button";
@@ -5,29 +8,8 @@ import "@esri/calcite-components/dist/components/calcite-input";
 import "@esri/calcite-components/dist/components/calcite-input-number";
 import "@esri/calcite-components/dist/components/calcite-label";
 import "@esri/calcite-components/dist/components/calcite-notice";
-import {
-  CalciteBlock,
-  CalciteBlockSection,
-  CalciteButton,
-  CalciteInput,
-  CalciteInputNumber,
-  CalciteLabel,
-  CalciteNotice,
-} from "@esri/calcite-components-react";
 
-import { useRef } from "react";
-
-interface Location {
-  latitude: number;
-  longitude: number;
-}
-
-export interface Observation {
-  location: Location;
-  observation: string;
-}
-
-interface DataEntryProps {
+export interface DataEntryProps {
   location: Location | null;
   onSubmit: (observation: string) => void | Promise<void>;
 }
@@ -36,56 +18,58 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
   const observationRef = useRef<HTMLCalciteInputElement | null>(null);
 
   return (
-    <CalciteBlock open heading="Selected Location">
+    <calcite-block open heading="Selected Location">
       {!location && (
-        <CalciteBlockSection open>
-          <CalciteNotice open>
+        <calcite-block-section open>
+          <calcite-notice open>
             <div slot="message">Click the map to start</div>
-          </CalciteNotice>
-        </CalciteBlockSection>
+          </calcite-notice>
+        </calcite-block-section>
       )}
       {location && (
-        <CalciteBlockSection open>
+        <calcite-block-section open>
           <div>
-            <CalciteLabel>
+            <calcite-label>
               Latitude
-              <CalciteInputNumber
+              <calcite-input-number
                 id="latitude"
                 readOnly
                 value={location ? String(location.latitude) : "0"}
-              ></CalciteInputNumber>
-            </CalciteLabel>
+              ></calcite-input-number>
+            </calcite-label>
           </div>
           <div>
-            <CalciteLabel>
+            <calcite-label>
               Longitude
-              <CalciteInputNumber
+              <calcite-input-number
                 id="longitude"
                 readOnly
                 value={location ? String(location.longitude) : "0"}
-              ></CalciteInputNumber>
-            </CalciteLabel>
+              ></calcite-input-number>
+            </calcite-label>
           </div>
           <div>
-            <CalciteLabel>
-              Observation{" "}
-              <CalciteInput
+            <calcite-label>
+              Observation
+              <calcite-input
                 ref={observationRef}
-                id="textInput"
-                data-testid="textInput"
-              ></CalciteInput>
-            </CalciteLabel>
+                id="observation"
+                data-testid="observation"
+              ></calcite-input>
+            </calcite-label>
           </div>
           <div>
-            <CalciteButton
-              id="submitText"
-              onClick={() => onSubmit(observationRef.current!.value)}
+            <calcite-button
+              id="submit-button"
+              onClick={() => {
+                onSubmit(observationRef.current!.value);
+              }}
             >
               Submit
-            </CalciteButton>
+            </calcite-button>
           </div>
-        </CalciteBlockSection>
+        </calcite-block-section>
       )}
-    </CalciteBlock>
+    </calcite-block>
   );
 }

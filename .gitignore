@@ -24,9 +24,13 @@ dist-ssr
 *.sw?
 
 *storybook.log
-results.json
 storybook-static
-__tests__/**/*-snapshots
+
+test-results.json
+__visualregression__/**/*-snapshots
+results.json
+
+coverage
 
 playwright-report
 test-results

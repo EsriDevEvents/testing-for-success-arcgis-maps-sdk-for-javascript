@@ -4,33 +4,30 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "build": "tsc -b && vite build",
+    "build:storybook": "storybook build",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:web\"",
     "dev:server": "nodemon server/main.js",
     "dev:web": "vite",
-    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build:storybook": "storybook build",
+    "test": "vitest run --browser.headless",
+    "test:coverage": "vitest --coverage",
     "test:storybook": "test-storybook --json --outputFile results.json",
-    "test:playwright": "npx playwright install && npx playwright test --ui",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:ui": "vitest",
+    "test:visual": "npx playwright install && npx playwright test --ui"
   },
   "dependencies": {
-    "@arcgis/core": "^4.31.6",
-    "@arcgis/map-components-react": "^4.31.6",
-    "@esri/calcite-components-react": "^2.13.2",
-    "@storybook/test-runner": "^0.21.0",
+    "@arcgis/core": "^4.32.3",
+    "@arcgis/map-components": "^4.32.5",
+    "@esri/calcite-components": "^3.0.3",
     "express": "^4.21.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "vitest-browser-react": "^0.1.1"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^3.2.4",
     "@eslint/js": "^9.17.0",
-    "@fetch-mock/vitest": "^0.2.8",
     "@playwright/test": "^1.50.1",
     "@storybook/addon-essentials": "^8.5.0",
     "@storybook/addon-interactions": "^8.5.0",
@@ -41,8 +38,10 @@
     "@storybook/react": "^8.5.0",
     "@storybook/react-vite": "^8.5.0",
     "@storybook/test": "^8.5.0",
+    "@storybook/test-runner": "^0.22.0",
     "@storybook/testing-library": "^0.2.1",
     "@testing-library/react": "^16.2.0",
+    "@types/express": "^5.0.0",
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
@@ -63,7 +62,8 @@
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5",
     "vite-plugin-node-polyfills": "^0.23.0",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.5",
+    "vitest-browser-react": "^0.1.1"
   },
   "eslintConfig": {
     "extends": [
