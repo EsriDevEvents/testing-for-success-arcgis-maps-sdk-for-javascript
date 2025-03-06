@@ -28,7 +28,7 @@ test-results.json
 *storybook.log
 test-results.json
 storybook-static
-__tests__/**/*-snapshots
+__visualregression__/**/*-snapshots
 
 coverage
 
