@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: "0 0 * * *" # Run every day at utc midnight
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
     env:
       BOT_NAME: github-actions[bot]
