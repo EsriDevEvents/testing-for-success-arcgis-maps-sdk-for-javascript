@@ -5,7 +5,6 @@ const config: StorybookConfig = {
   addons: [
     "@storybook/addon-onboarding",
     "@storybook/addon-essentials",
-    "@chromatic-com/storybook",
     "@storybook/addon-interactions",
   ],
   core: {
@@ -15,19 +14,10 @@ const config: StorybookConfig = {
     name: "@storybook/react-vite",
     options: {},
   },
+  // inserts calcite style
+  // update .docs-story to display the map, otherwise story renders blank
   previewHead: (head) => `
-    <script type="module" src="https://js.arcgis.com/calcite-components/2.13.2/calcite.esm.js"></script>
-    <script type="module" src="https://js.arcgis.com/calcite-components/2.13.2/calcite.css"></script>
-    <link rel="stylesheet" href="https://js.arcgis.com/4.31/@arcgis/core/assets/esri/themes/light/main.css" />
-    <script type="importmap">
-      {
-        "imports": {
-          "@arcgis/core/": "https://js.arcgis.com/4.31/@arcgis/core/"
-        }
-      }
-    </script>
-    <script type="module" src="https://js.arcgis.com/map-components/4.31/arcgis-map-components.esm.js"></script>
-    <script type="module" src="https://js.arcgis.com/map-components/4.31/arcgis-map-components.css"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/light/main.css" />
     <style>
       .docs-story > div > div {
         width: 100%;
@@ -36,18 +26,5 @@ const config: StorybookConfig = {
     </style>
     ${head}
   `,
-  async viteFinal(config) {
-    // Merge custom configuration into the default config
-    const { mergeConfig } = await import("vite");
-
-    return mergeConfig(config, {
-      server: {
-        proxy: {
-          "/load": "http://localhost:4000",
-          "/save": "http://localhost:4000",
-        },
-      },
-    });
-  },
 };
 export default config;

@@ -2,6 +2,8 @@ import { beforeEach, describe, vi, Mock } from "vitest";
 import { loadObservations, saveObservation } from "../fetchData";
 import { Observation } from "../../types";
 
+declare const fetch: Mock;
+
 beforeEach(() => {
   globalThis.fetch = vi.fn();
 });
@@ -16,7 +18,7 @@ describe("fetchData functions", () => {
       { latitude: 0, longitude: 0, observation: "test" },
     ];
 
-    (fetch as Mock).mockResolvedValue({
+    fetch.mockResolvedValue({
       json: vi.fn().mockResolvedValue(mockData),
     });
 
@@ -33,7 +35,7 @@ describe("fetchData functions", () => {
     };
     const mockResponse = { response: "OK" };
 
-    (fetch as Mock).mockResolvedValue({
+    fetch.mockResolvedValue({
       json: vi.fn().mockResolvedValue(mockResponse),
     });
 

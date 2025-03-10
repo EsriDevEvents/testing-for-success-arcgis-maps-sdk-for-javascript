@@ -1,6 +1,8 @@
+# This is a workflow for testing regression
 name: Test
 on:
   workflow_dispatch:
+  # only run when pull request contains typescript file changes in src folder
   pull_request:
     paths:
       - src/**/*.ts
@@ -22,25 +24,12 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # Installs required dependencies for testing
       - name: Install playwrights
         run: |
           npx -y playwright install
 
       - name: Run Tests
-        run: |
-          # Start Storybook on a specific port in the background
-          npm run storybook -- --no-open &
-
-          # Wait for Storybook to be ready (replace with a better health-check mechanism if needed)
-          echo "Waiting for Storybook to start..."
-          sleep 15
-
-          # Run interaction tests
-          npm run test:storybook
-
-          # Stop Storybook after tests
-          kill $(lsof -t -i:6006)
+        run: npm run test
 
       - name: Create a comment
         if: always() && github.event_name == 'pull_request'
@@ -59,18 +48,28 @@ jobs:
 
 
             const botComments = comments.filter(comment => comment.user.login === BOT_NAME).shift()
-            const results = require('./results.json');
+            const results = require('./test-results.json');
             const { basename } = require('path')
 
             let commentId = botComments ? botComments.id : null;
 
             const { success, testResults } = results;
-            const table = ["| Test | Status | File |", "| --- | --- | --- |"];
+            const table = ["| Test Suite | Total | Pass | Time Elapsed | File |", "| --- | --- | --- | --- | --- |"];
 
-            for (const { assertionResults, name } of testResults) {
-              for (const { fullName, status } of assertionResults) {
-                table.push(`| ${fullName} | ${status === "passed" ? "✅" : "❌"} | ${basename(name)} |`);
+            for (const { assertionResults, name, endTime, startTime } of testResults) {
+              const testSuite = assertionResults[0].ancestorTitles[0];
+
+              let pass = 0;
+              let total = 0;
+
+              for(const { status } of assertionResults){
+                if(status === "passed"){
+                  pass++;
+                }
+                total++;
               }
+
+              table.push(`| ${testSuite} ${total === pass ? "✅" : "❌"} | ${total} | ${pass} | ${((endTime - startTime) / 1000).toFixed(2)} | ${basename(name)} |`);
             }
 
             const body = `

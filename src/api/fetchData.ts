@@ -1,5 +1,6 @@
 import { Observation } from "../types";
 
+// requests to load observations from our express server
 export async function loadObservations() {
   return fetch("/load")
     .then((response) => response.json())
@@ -12,6 +13,7 @@ export async function loadObservations() {
     });
 }
 
+// requests to save an observation in our express server
 export async function saveObservation(observation: Observation) {
   return fetch("/save", {
     method: "POST",

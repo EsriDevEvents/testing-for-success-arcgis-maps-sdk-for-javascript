@@ -1,5 +1,6 @@
-import type { Location, Observation } from "../types";
 import { useRef, useEffect, Dispatch, SetStateAction, useState } from "react";
+import type { Location, Observation } from "../types";
+
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
 
@@ -34,6 +35,9 @@ const MapContainer = ({
       map.addLayer(pinLayerRef.current);
       map.addLayer(pointLayerRef.current);
 
+      // append ready to the class for testing
+      map.classList.add("ready");
+
       if (onMapLoad) {
         onMapLoad();
       }
@@ -62,7 +66,7 @@ const MapContainer = ({
   useEffect(() => {
     if (observations.length > 0 && mapReady) {
       pointLayerRef.current.graphics.removeAll();
-      observations.forEach(({ latitude, longitude }) => {
+      observations.forEach(({ latitude, longitude, observation }) => {
         const point = new Graphic({
           geometry: new Point({ latitude, longitude }),
           symbol: new SimpleMarkerSymbol({
@@ -70,10 +74,11 @@ const MapContainer = ({
             size: 10,
             outline: { width: 1 },
           }),
-          attributes: { type: "observation" },
+          attributes: { latitude, longitude, observation },
           popupTemplate: {
             title: "Observation",
-            content: "{observation}",
+            content:
+              "<b>Latitude. </b> {latitude}<br/><b>Longitude. </b> {longitude}<br/><br/><b>Observation</b><br/>{observation}",
           },
         });
         pointLayerRef.current.graphics.push(point);

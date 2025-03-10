@@ -1,43 +1,16 @@
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 import MapContainer from "../MapContainer";
-
-// Mock out the ArcGIS Maps SDK components
-vi.mock("@arcgis/core/Map", () => {
-  return {
-    default: vi.fn().mockImplementation(() => {
-      return {
-        add: vi.fn(),
-      };
-    }),
-  };
-});
-
-vi.mock("@arcgis/core/views/MapView", () => {
-  return {
-    default: vi.fn().mockImplementation((map) => {
-      return {
-        map,
-        when: (cb: () => any) => cb(),
-        on: (event: string, callback: () => void) => {
-          if (event == "click") {
-            callback();
-          }
-        },
-        hitTest: () => Promise.resolve({ results: [{}] }),
-      };
-    }),
-  };
-});
 
 vi.mock("@arcgis/core/layers/GraphicsLayer", () => {
   return {
     default: vi.fn().mockImplementation(() => {
-      let graphics: any[] = [];
+      const graphics = {
+        removeAll: () => null,
+        push: () => null,
+      };
       return {
         graphics,
-        add: vi.fn().mockImplementation((graphic) => graphics.push(graphic)),
-        removeAll: vi.fn().mockImplementation(() => (graphics = [])),
       };
     }),
   };
@@ -68,7 +41,13 @@ vi.mock("@arcgis/core/geometry/Point", () => {
 });
 
 describe("MapContainer", () => {
-  test("It calls onMapLoad", () => {
+  test("webgl enabled", () => {
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl");
+    expect(gl).not.toBeNull();
+  });
+
+  test("renders and trigger onMapLoad when map is ready", async () => {
     const callback = vi.fn();
 
     render(
@@ -81,6 +60,14 @@ describe("MapContainer", () => {
       />
     );
 
-    expect(callback).toHaveBeenCalled();
+    await waitFor(() => expect(callback).toHaveBeenCalled(), {
+      timeout: 10_000,
+      onTimeout(error) {
+        throw new Error(
+          error.message +
+            "\n\nMake sure you are calling onMapLoad in the useEffect hook."
+        );
+      },
+    });
   });
 });
