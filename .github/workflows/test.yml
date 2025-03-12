@@ -1,8 +1,6 @@
 # This is a workflow for testing regression
-name: Test
+name: Pull Request
 on:
-  workflow_dispatch:
-  # only run when pull request contains typescript file changes in src folder
   pull_request:
     paths:
       - src/**/*.ts
