@@ -30,7 +30,7 @@ jobs:
         run: npm run test
 
       - name: Create a comment
-        if: always() && github.event_name == 'pull_request'
+        if: always()
         uses: actions/github-script@v7
         with:
           script: |
