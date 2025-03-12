@@ -6,8 +6,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      BOT_NAME: github-actions[bot]
     steps:
       - name: Pull Code
         uses: actions/checkout@v4
@@ -20,12 +18,12 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
-
       - name: Install playwrights
         run: |
           npx -y playwright install
+
+      - name: Build
+        run: npm run build
 
       - name: Test
         id: test

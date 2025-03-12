@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      BOT_NAME: github-actions[bot]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
