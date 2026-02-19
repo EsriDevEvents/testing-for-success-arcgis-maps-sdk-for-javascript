@@ -16,9 +16,9 @@
     "test:visual": "npx playwright install && npx playwright test --ui"
   },
   "dependencies": {
-    "@arcgis/core": "^4.32.3",
-    "@arcgis/map-components": "^4.32.5",
-    "@esri/calcite-components": "^3.0.3",
+    "@arcgis/core": "^4.33.0",
+    "@arcgis/map-components": "^4.33.0",
+    "@esri/calcite-components": "^3.2.1",
     "express": "^5.2.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
