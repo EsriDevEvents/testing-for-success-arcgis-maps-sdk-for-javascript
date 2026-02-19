@@ -32,7 +32,7 @@ function App() {
 
   return (
     <calcite-shell contentBehind={true}>
-      <calcite-shell-panel slot="panel-start" position="start">
+      <calcite-shell-panel slot="panel-start">
         <calcite-panel heading="Data Entry">
           <DataEntry location={currentPoint} onSubmit={onSaveObservation} />
         </calcite-panel>

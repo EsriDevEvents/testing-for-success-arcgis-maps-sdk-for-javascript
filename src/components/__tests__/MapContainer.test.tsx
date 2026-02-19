@@ -1,5 +1,6 @@
 import { render, waitFor } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
+
 import MapContainer from "../MapContainer";
 
 vi.mock("@arcgis/core/layers/GraphicsLayer", () => {
@@ -51,13 +52,15 @@ describe("MapContainer", () => {
     const callback = vi.fn();
 
     render(
-      <MapContainer
-        onMapLoad={callback}
-        onMapClick={vi.fn()}
-        location={null}
-        setLocation={() => null}
-        observations={[]}
-      />
+      <div style={{ width: "800px", height: "600px" }}>
+        <MapContainer
+          onMapLoad={callback}
+          onMapClick={vi.fn()}
+          location={null}
+          setLocation={() => null}
+          observations={[]}
+        />
+      </div>
     );
 
     await waitFor(() => expect(callback).toHaveBeenCalled(), {

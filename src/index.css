@@ -1,5 +1,4 @@
-@import "@arcgis/core/assets/esri/themes/light/main.css";
-@import "@esri/calcite-components/dist/calcite/calcite.css";
+@import "@esri/calcite-components/main.css";
 
 html,
 body,

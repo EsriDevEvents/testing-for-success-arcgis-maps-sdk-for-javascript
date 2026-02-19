@@ -1,5 +1,4 @@
 /// <reference types="vitest/config" />
-/// <reference types="@vitest/browser/providers/playwright" />
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
@@ -21,20 +20,19 @@ export default defineConfig({
     reporters: ["default", "json"],
     outputFile: "test-results.json",
     exclude: ["**/node_modules/**", "__tests__/**"],
-    environment: "jsdom",
     globals: true,
     setupFiles: ["setupTests.ts"],
     browser: {
       enabled: true,
+      provider: playwright({
+        launchOptions: {
+          args: ["--use-gl=angle"],
+        },
+      }),
       instances: [
         {
           browser: "chromium",
           viewport: { width: 800, height: 600 },
-          provider: playwright({
-            launchOptions: {
-              args: ["--use-gl=angle"],
-            },
-          }),
         },
       ],
     },

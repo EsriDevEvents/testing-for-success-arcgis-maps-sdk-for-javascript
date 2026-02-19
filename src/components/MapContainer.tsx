@@ -32,8 +32,8 @@ const MapContainer = ({
   useEffect(() => {
     if (mapReady && mapRef.current) {
       const map = mapRef.current;
-      map.addLayer(pinLayerRef.current);
-      map.addLayer(pointLayerRef.current);
+      map.map?.add(pinLayerRef.current);
+      map.map?.add(pointLayerRef.current);
 
       // append ready to the class for testing
       map.classList.add("ready");
@@ -42,7 +42,7 @@ const MapContainer = ({
         onMapLoad();
       }
     }
-  }, [mapReady]);
+  }, [mapReady, onMapLoad]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -114,7 +114,7 @@ const MapContainer = ({
         }
       }}
     >
-      <arcgis-zoom position="top-right"></arcgis-zoom>
+      <arcgis-zoom slot="top-right"></arcgis-zoom>
     </arcgis-map>
   );
 };
