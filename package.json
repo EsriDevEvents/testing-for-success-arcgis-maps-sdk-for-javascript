@@ -22,7 +22,7 @@
     "@arcgis/core": "^4.32.3",
     "@arcgis/map-components": "^4.32.5",
     "@esri/calcite-components": "^3.0.3",
-    "express": "^4.21.2",
+    "express": "^5.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
