@@ -1,4 +1,5 @@
 /// <reference types="vitest/config" />
+/// <reference types="@vitest/browser/providers/playwright" />
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
@@ -28,6 +29,9 @@ export default defineConfig({
         {
           browser: "chromium",
           viewport: { width: 800, height: 600 },
+          launch: {
+            args: ["--use-gl=angle"],
+          }
         },
       ],
     },
