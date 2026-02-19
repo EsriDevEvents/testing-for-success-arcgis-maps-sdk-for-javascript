@@ -46,7 +46,7 @@ const MapContainer = ({
         onMapLoad();
       }
     }
-  }, [mapReady, onMapLoad]);
+  }, [mapReady]);
 
   useEffect(() => {
     if (!mapReady) return;
