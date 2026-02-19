@@ -32,8 +32,12 @@ const MapContainer = ({
   useEffect(() => {
     if (mapReady && mapRef.current) {
       const map = mapRef.current;
-      map.map?.add(pinLayerRef.current);
-      map.map?.add(pointLayerRef.current);
+      if (pinLayerRef.current instanceof GraphicsLayer) {
+        map.map?.add(pinLayerRef.current);
+      }
+      if (pointLayerRef.current instanceof GraphicsLayer) {
+        map.map?.add(pointLayerRef.current);
+      }
 
       // append ready to the class for testing
       map.classList.add("ready");

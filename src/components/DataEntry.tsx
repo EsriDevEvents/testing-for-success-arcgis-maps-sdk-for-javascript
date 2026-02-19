@@ -18,16 +18,16 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
   const observationRef = useRef<HTMLCalciteInputElement | null>(null);
 
   return (
-    <calcite-block open heading="Selected Location">
+    <calcite-block expanded heading="Selected Location">
       {!location && (
-        <calcite-block-section open>
+        <calcite-block-section expanded>
           <calcite-notice open>
             <div slot="message">Click the map to start</div>
           </calcite-notice>
         </calcite-block-section>
       )}
       {location && (
-        <calcite-block-section open>
+        <calcite-block-section expanded>
           <div>
             <calcite-label>
               Latitude
