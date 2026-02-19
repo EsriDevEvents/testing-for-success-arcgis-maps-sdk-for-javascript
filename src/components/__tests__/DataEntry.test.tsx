@@ -1,4 +1,4 @@
-import { render } from "vitest-browser-react";
+import { render } from "@testing-library/react";
 import { expect, test } from "vitest";
 import DataEntry from "../DataEntry";
 import { wait } from "../../test-utils/interactions";

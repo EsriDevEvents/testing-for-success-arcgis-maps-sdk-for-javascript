@@ -4,7 +4,7 @@ import MapContainer from "../MapContainer";
 
 vi.mock("@arcgis/core/layers/GraphicsLayer", () => {
   return {
-    default: vi.fn().mockImplementation(() => {
+    default: vi.fn().mockImplementation(function () {
       const graphics = {
         removeAll: () => null,
         push: () => null,
@@ -18,7 +18,7 @@ vi.mock("@arcgis/core/layers/GraphicsLayer", () => {
 
 vi.mock("@arcgis/core/Graphic", () => {
   return {
-    default: vi.fn().mockImplementation(() => {
+    default: vi.fn().mockImplementation(function () {
       return {};
     }),
   };
@@ -26,7 +26,7 @@ vi.mock("@arcgis/core/Graphic", () => {
 
 vi.mock("@arcgis/core/symbols/SimpleMarkerSymbol", () => {
   return {
-    default: vi.fn().mockImplementation(() => {
+    default: vi.fn().mockImplementation(function () {
       return {};
     }),
   };
@@ -34,7 +34,7 @@ vi.mock("@arcgis/core/symbols/SimpleMarkerSymbol", () => {
 
 vi.mock("@arcgis/core/geometry/Point", () => {
   return {
-    default: vi.fn().mockImplementation(() => {
+    default: vi.fn().mockImplementation(function () {
       return {};
     }),
   };
