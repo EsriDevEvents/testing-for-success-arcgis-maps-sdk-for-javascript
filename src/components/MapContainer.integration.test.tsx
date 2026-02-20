@@ -1,7 +1,7 @@
 import { render, waitFor } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 
-import MapContainer from "../MapContainer";
+import MapContainer from "./MapContainer";
 
 vi.mock("@arcgis/core/layers/GraphicsLayer", () => {
   return {

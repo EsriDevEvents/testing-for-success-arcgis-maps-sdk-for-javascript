@@ -23,11 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-*storybook.log
-storybook-static
-
 test-results.json
-__visualregression__/**/*-snapshots
+**/*-snapshots
 results.json
 
 coverage

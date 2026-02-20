@@ -16,25 +16,46 @@ export default defineConfig({
     },
   },
   test: {
-    include: ["**/__tests__/**/*.[jt]s?(x)"],
     reporters: ["default", "json"],
     outputFile: "test-results.json",
-    exclude: ["**/node_modules/**", "__tests__/**"],
+    exclude: ["**/node_modules/**"],
     globals: true,
     setupFiles: ["setupTests.ts"],
-    browser: {
-      enabled: true,
-      provider: playwright({
-        launchOptions: {
-          args: ["--use-gl=angle"],
+    projects: [
+      {
+        test: {
+          name: "unit",
+          include: ["src/**/*.test.[jt]s?(x)"],
+          exclude: [
+            "src/**/*.integration.test.[jt]s?(x)",
+            "src/**/*.e2e.[jt]s?(x)",
+          ],
+          environment: "jsdom",
+          browser: {
+            enabled: false,
+          },
         },
-      }),
-      instances: [
-        {
-          browser: "chromium",
-          viewport: { width: 800, height: 600 },
+      },
+      {
+        test: {
+          name: "integration",
+          include: ["src/**/*.integration.test.[jt]s?(x)"],
+          browser: {
+            enabled: true,
+            provider: playwright({
+              launchOptions: {
+                args: ["--use-gl=angle"],
+              },
+            }),
+            instances: [
+              {
+                browser: "chromium",
+                viewport: { width: 800, height: 600 },
+              },
+            ],
+          },
         },
-      ],
-    },
+      },
+    ],
   },
 });

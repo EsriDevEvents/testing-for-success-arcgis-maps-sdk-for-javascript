@@ -2,7 +2,8 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   // Look for test files in the "__visualregression__" directory, relative to this configuration file.
-  testDir: "__visualregression__",
+  // testDir: "__visualregression__",
+  testMatch: "src/**/*.e2e.ts",
 
   // Run all tests in parallel.
   fullyParallel: true,

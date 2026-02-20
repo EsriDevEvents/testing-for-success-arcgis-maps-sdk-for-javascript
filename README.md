@@ -32,7 +32,7 @@ We use [vitest](https://vitest.dev/guide/) as our unit testing framework. Vitest
 
 You can declare test configuration either in [vite.config.ts](vite.config.ts) or vitest.config.ts.
 
-We configured it to check files under **src** directory. Each component and api request libraries are tested in isolation.
+We configured it to check files under the **src** directory. Unit tests end with `.test.ts(x)` (the most common pattern), integration tests end with `.integration.test.ts(x)`, and end-to-end tests end with `.e2e.ts` (Playwright).
 
 The configuration checks all the test files under 'src' directory. We set up tests for each components to be unit-tested in isolation. In here, vite provided many great tools such as running in browser mode and integrating mock services.
 
@@ -59,7 +59,7 @@ Ensures UI consistency by detecting unintended changes. It captures and compares
 
 Playwright is a powerful tool for E2E and visual regression testing, supporting Chromium, WebKit, and Firefox without requiring manual version updates.
 
-In our [demo](/__tests__/DataEntry.test.ts), we:
+In our [demo](/__visualregression__/DataEntry.e2e.ts), we:
 
 1. Render our application
 2. Click the center of the map

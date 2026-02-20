@@ -11,9 +11,11 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run --browser.headless",
+    "test:unit": "vitest run --project unit",
+    "test:integration": "vitest run --project integration --browser.headless",
+    "test:e2e": "npx playwright install && npx playwright test --ui",
     "test:coverage": "vitest --coverage",
-    "test:ui": "vitest",
-    "test:visual": "npx playwright install && npx playwright test --ui"
+    "test:ui": "vitest"
   },
   "dependencies": {
     "@arcgis/core": "^5.0.0-next.130",
@@ -39,6 +41,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.0",
     "globals": "^17.3.0",
+    "jsdom": "^28.1.0",
     "nodemon": "^3.1.9",
     "playwright": "^1.58.2",
     "prettier": "^3.8.1",

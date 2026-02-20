@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
-import DataEntry from "../DataEntry";
-import { wait } from "../../test-utils/interactions";
+import DataEntry from "./DataEntry";
+import { wait } from "../test-utils/interactions";
 
 describe("DataEntry", () => {
   test("renders DataEntry, handles properties, and displays latitude and longitude", async () => {

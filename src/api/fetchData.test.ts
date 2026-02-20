@@ -1,6 +1,6 @@
-import { beforeEach, describe, vi, Mock } from "vitest";
-import { loadObservations, saveObservation } from "../fetchData";
-import { Observation } from "../../types";
+import { beforeEach, afterEach, describe, expect, it, vi, Mock } from "vitest";
+import { loadObservations, saveObservation } from "./fetchData";
+import { Observation } from "../types";
 
 declare const fetch: Mock;
 
