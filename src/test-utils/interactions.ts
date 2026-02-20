@@ -1,7 +1,7 @@
 export const sendkeys = (
   element: HTMLInputElement,
   text: string,
-  timer = 100
+  timer = 100,
 ): Promise<void> =>
   new Promise((resolve) => {
     if (timer < 50) {

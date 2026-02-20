@@ -106,7 +106,7 @@ const MapContainer = ({
 
         const { results } = await view.hitTest(
           { x, y },
-          { include: pointLayerRef.current }
+          { include: pointLayerRef.current },
         );
 
         if (results.length === 0) {

@@ -60,7 +60,7 @@ describe("MapContainer", () => {
           setLocation={() => null}
           observations={[]}
         />
-      </div>
+      </div>,
     );
 
     await waitFor(() => expect(callback).toHaveBeenCalled(), {
@@ -68,7 +68,7 @@ describe("MapContainer", () => {
       onTimeout(error) {
         throw new Error(
           error.message +
-            "\n\nMake sure you are calling onMapLoad in the useEffect hook."
+            "\n\nMake sure you are calling onMapLoad in the useEffect hook.",
         );
       },
     });

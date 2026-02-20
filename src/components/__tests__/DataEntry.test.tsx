@@ -15,7 +15,7 @@ describe("DataEntry", () => {
           longitude,
         }}
         onSubmit={console.log}
-      />
+      />,
     );
 
     const { baseElement } = component;
@@ -24,12 +24,12 @@ describe("DataEntry", () => {
 
     expect(
       (baseElement.querySelector("#latitude") as unknown as { value: number })
-        .value
+        .value,
     ).toBe(String(latitude));
 
     expect(
       (baseElement.querySelector("#longitude") as unknown as { value: number })
-        .value
+        .value,
     ).toBe(String(longitude));
   });
 });
