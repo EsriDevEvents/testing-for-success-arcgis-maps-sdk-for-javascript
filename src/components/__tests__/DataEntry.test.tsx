@@ -1,5 +1,5 @@
-import { render } from "vitest-browser-react";
-import { expect, test } from "vitest";
+import { render } from "@testing-library/react";
+import { describe, expect, test } from "vitest";
 import DataEntry from "../DataEntry";
 import { wait } from "../../test-utils/interactions";
 
@@ -15,7 +15,7 @@ describe("DataEntry", () => {
           longitude,
         }}
         onSubmit={console.log}
-      />
+      />,
     );
 
     const { baseElement } = component;
@@ -24,12 +24,12 @@ describe("DataEntry", () => {
 
     expect(
       (baseElement.querySelector("#latitude") as unknown as { value: number })
-        .value
+        .value,
     ).toBe(String(latitude));
 
     expect(
       (baseElement.querySelector("#longitude") as unknown as { value: number })
-        .value
+        .value,
     ).toBe(String(longitude));
   });
 });

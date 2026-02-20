@@ -21,7 +21,7 @@ test.describe("DataEntry Visual Regression", () => {
 
     // take a screenshot of the data entry panel and check visual regression
     const dataEntryPanel = await page.locator(
-      "calcite-shell-panel[slot='panel-start']"
+      "calcite-shell-panel[slot='panel-start']",
     );
     const dataEntryScreenshotPath = "./screenshots/data-entry.png";
     await expect(dataEntryPanel).toHaveScreenshot(dataEntryScreenshotPath, {

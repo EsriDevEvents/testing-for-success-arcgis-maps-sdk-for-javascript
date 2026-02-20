@@ -32,8 +32,12 @@ const MapContainer = ({
   useEffect(() => {
     if (mapReady && mapRef.current) {
       const map = mapRef.current;
-      map.addLayer(pinLayerRef.current);
-      map.addLayer(pointLayerRef.current);
+      if (pinLayerRef.current instanceof GraphicsLayer) {
+        map.map?.add(pinLayerRef.current);
+      }
+      if (pointLayerRef.current instanceof GraphicsLayer) {
+        map.map?.add(pointLayerRef.current);
+      }
 
       // append ready to the class for testing
       map.classList.add("ready");
@@ -102,7 +106,7 @@ const MapContainer = ({
 
         const { results } = await view.hitTest(
           { x, y },
-          { include: pointLayerRef.current }
+          { include: pointLayerRef.current },
         );
 
         if (results.length === 0) {
@@ -114,7 +118,7 @@ const MapContainer = ({
         }
       }}
     >
-      <arcgis-zoom position="top-right"></arcgis-zoom>
+      <arcgis-zoom slot="top-right"></arcgis-zoom>
     </arcgis-map>
   );
 };

@@ -16,7 +16,6 @@ This repository covers various testing methodologies, including:
 To support diverse testing environments, we utilize different frameworks, allowing flexibility in choosing the most suitable tool for your needs:
 
 - Vitest
-- Storybook
 - Playwright
 
 Beyond test implementation, we provide strategies to optimize test performance—reducing execution time and network calls—and enhance workflows and team collaboration using GitHub Actions.
@@ -51,31 +50,6 @@ Tests that components like [DataEntry](/src/components/DataEntry.tsx) and [Map C
 ### End To End (E2E) Testing
 
 Simulates real user interactions by testing the entire application flow from start to finish.
-
-To demonstrate integration and E2E testing, we utilize Storybook.
-
-#### Storybook
-
-Storybook is a powerful tool for building, testing, and documenting components in isolation. It allows independent UI development without backend dependencies, making it easier to validate UI states, styles, and interactivity.
-
-Storybook supports useful addons for testing:
-
-- Accessibility testing: `@storybook/addon-a11y`
-- Visual regression testing: Chromatic
-- Interaction testing: `@storybook/testing-library` and `@storybook/jest`
-
-To try our storybook:
-
-```sh
-$ npm install
-$ npm run storybook
-```
-
-Once loaded, navigate to the **Data Entry** → **Test** story. You’ll see **"This tests observation"** being typed into the input field automatically.
-
-Using the `@storybook/addon-interactions` addon, we ran browser-based E2E tests to ensure components load correctly, handle properties, and submit data properly.
-
-![](imgs/res/2025-02-18-12-10-35.png)
 
 ### Visual Regression
 

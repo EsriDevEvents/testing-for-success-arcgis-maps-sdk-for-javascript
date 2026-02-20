@@ -3,6 +3,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
+import { playwright } from "@vitest/browser-playwright";
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
@@ -18,12 +20,15 @@ export default defineConfig({
     reporters: ["default", "json"],
     outputFile: "test-results.json",
     exclude: ["**/node_modules/**", "__tests__/**"],
-    environment: "jsdom",
     globals: true,
     setupFiles: ["setupTests.ts"],
     browser: {
       enabled: true,
-      provider: "playwright",
+      provider: playwright({
+        launchOptions: {
+          args: ["--use-gl=angle"],
+        },
+      }),
       instances: [
         {
           browser: "chromium",
