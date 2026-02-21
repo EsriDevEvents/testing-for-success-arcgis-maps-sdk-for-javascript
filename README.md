@@ -4,7 +4,7 @@ This repository showcases best practices for testing the ArcGIS Maps SDK for Jav
 
 ![Screenshot of demo application](docs/observation-app.avif)
 
-**Testing Methodologies**
+## Testing Methodologies
 
 This repository covers various testing methodologies, including:
 
@@ -30,8 +30,6 @@ Which should yield the following output in the terminal:
 
 ![Screenshot of vitest output](docs/01-vitest-reporter-output.avif)
 
-## Types of testing
-
 ### Unit Testing
 
 Tests for individual functions, components, or modules in isolation to ensure they work as expected. Our app consists of two components, [MapContainer](./src/components/MapContainer.tsx) and [DataEntry.tsx](./src/components/DataEntry.tsx). In addition, network request logics are stored under [api/](./src/api/).
@@ -48,17 +46,9 @@ Simulates real user interactions by testing the entire application flow from sta
 
 Ensures UI consistency by detecting unintended changes. It captures and compares screenshots before and after code updates to highlight discrepancies, preventing unwanted design or layout shifts.
 
-## Optimization
+## Automation
 
-Optimizing test execution helps reduce total testing time while maintaining accuracy. Here are key optimization techniques:
-
-- **Mock Services**: Replace network calls with local mocks. For example, we mock ArcGIS API requests, cutting test times from minutes to seconds in Vitest.
-- **Image Hashing**: In visual regression, compute image hashes locally and upload only if they differ from the server’s, minimizing network overhead.
-- **Test Sharding**: Split large test suites across multiple VMs to run in parallel, drastically reducing total execution time.
-
-## CI
-
-Integrating tests into a CI pipeline ensures code quality, prevents regressions, and improves collaboration by providing real-time feedback to developers.
+Automating linting, tests and other checks ensures code quality, prevents regressions, and improves collaboration by providing real-time feedback to developers.
 
 Some popular tools are:
 
