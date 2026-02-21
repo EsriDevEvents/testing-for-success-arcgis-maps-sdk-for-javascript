@@ -1,5 +1,5 @@
 import { useRef, useEffect, Dispatch, SetStateAction, useState } from "react";
-import type { Location, Observation } from "../types";
+import type { Location, Observation } from "../interfaces";
 
 import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
