@@ -1,5 +1,22 @@
 # ArcGIS Maps SDK for JavaScript: Testing for Success
 
+This technical session is for developers and testers looking to enhance their testing processes and build robust applications with the ArcGIS Maps SDK for JavaScript. The following key testing methodologies are discussed: testing frameworks (overview of the tools to uphold software quality); automated testing (insights into unit, integration, and end-to-end testing practices); best practices (strategies for writing effective test cases and maintaining coverage); and collaboration (the role of developer-tester collaboration in achieving success). Join us to deepen your understanding of effective software testing!
+
+When: Thursday, March 12 | 5:30 PM - 6:30 PM PDT
+
+Where: Madera | Renaissance Hotel
+
+Presenters: Randy Jones &
+[Thorben Westerhuys](https://github.com/twesterhuys)
+
+Presented at [Esri Developer Summit 2026](https://devtechsummit2026.esri.com/).
+
+Previous versions:
+
+- [Dev & Tech Summit 2025](https://github.com/EsriDevEvents/testing-for-success-arcgis-maps-sdk-for-javascript/tree/DTS25)
+
+## Demo
+
 This repository showcases best practices for testing the ArcGIS Maps SDK for JavaScript. It includes a lightweight React application featuring an interactive ArcGIS map and a DataEntry tab. The map listens for user click events, places an 'X' marker at the clicked position, and extracts latitude and longitude. These coordinates are then displayed in the DataEntry tab, allowing users to store their observations directly on the map.
 
 ![Screenshot of demo application](docs/observation-app.avif)
