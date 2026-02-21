@@ -36,12 +36,27 @@ To focus on techniques we use [`vitest`](https://vitest.dev/). Vitest is a moder
 
 At the start, we only have it configured to run unit and integration tests on the server code. In the demo we will show how to introduce all levels of testing for the frontend app.
 
-To get started, clone this repo and run:
+## Installation
 
-```bash
-npm install
-npm run test
-```
+> [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [Git](https://git-scm.com/downloads) is required to run the following commands.
+
+1. Clone this sample app
+
+   ```sh
+   git clone https://github.com/EsriDevEvents/testing-for-success-arcgis-maps-sdk-for-javascript.git
+   ```
+
+1. Install dependencies
+
+   ```sh
+   npm install
+   ```
+
+1. Run the tests
+
+   ```sh
+   npm run test
+   ```
 
 Which should yield the following output in the terminal:
 
