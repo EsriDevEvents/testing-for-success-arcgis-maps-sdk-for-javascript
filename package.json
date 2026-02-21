@@ -7,7 +7,6 @@
     "build": "tsc -b && vite build",
     "dev": "vite",
     "lint": "eslint --fix .",
-    "test-pre": "npx playwright install --with-deps chromium",
     "test": "vitest",
     "preview": "vite preview"
   },
@@ -21,7 +20,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
-    "@types/express": "^4.17.22",
+    "@types/express": "^5.0.6",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/supertest": "^6.0.3",
