@@ -21,12 +21,10 @@ This repository showcases best practices for testing the ArcGIS Maps SDK for Jav
 
 ![Screenshot of demo application](docs/observation-app.avif)
 
-## Testing Methodologies
-
 This repository covers various testing methodologies, including:
 
 - Unit testing
-- Integration testing
+- Integration / Component testing
 - End-to-end testing
 - Visual regression testing
 
@@ -34,9 +32,11 @@ To focus on techniques we use [`vitest`](https://vitest.dev/). Vitest is a moder
 
 [Test configuration](https://vitest.dev/config/) can be either in [vite.config.ts](./vite.config.ts) or a separate vitest.config.ts.
 
-At the start, we only have it configured to run unit and integration tests on the server code. In the demo we will show how to introduce all levels of testing for the frontend app.
+At the start, we only have a few unit and integration tests on the server code. In the demo we will show how to introduce all levels of testing for the frontend app, automate checks and improve team collaboration.
 
-## Installation
+![Screenshot of vitest output](docs/01-vitest-reporter-output.avif)
+
+### Installation
 
 > [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [Git](https://git-scm.com/downloads) is required to run the following commands.
 
@@ -58,17 +58,15 @@ At the start, we only have it configured to run unit and integration tests on th
    npm run test
    ```
 
-Which should yield the following output in the terminal:
-
-![Screenshot of vitest output](docs/01-vitest-reporter-output.avif)
+## Resources
 
 ### Unit Testing
 
-Tests for individual functions, components, or modules in isolation to ensure they work as expected. Our app consists of two components, [MapContainer](./src/components/MapContainer.tsx) and [DataEntry.tsx](./src/components/DataEntry.tsx). In addition, network request logics are stored under [api/](./src/api/).
+Tests for individual functions, components, or modules in isolation to ensure they work as expected.
 
-### Integration Testing
+### Integration / Components Testing
 
-Tests that components like [DataEntry](/src/components/DataEntry.tsx) and [Map Container](/src/components/MapContainer.tsx) function together correctly, often overlapping with E2E testing in scope.
+Tests that components function together correctly, often overlapping with E2E testing in scope.
 
 ### End To End (E2E) Testing
 
@@ -78,7 +76,7 @@ Simulates real user interactions by testing the entire application flow from sta
 
 Ensures UI consistency by detecting unintended changes. It captures and compares screenshots before and after code updates to highlight discrepancies, preventing unwanted design or layout shifts.
 
-## Automation
+### Automation
 
 Automating linting, tests and other checks ensures code quality, prevents regressions, and improves collaboration by providing real-time feedback to developers.
 
