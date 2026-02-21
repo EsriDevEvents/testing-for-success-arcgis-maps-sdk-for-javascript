@@ -1,4 +1,4 @@
-import { Observation } from "../types";
+import { Observation } from "../interfaces";
 
 // requests to load observations from our express server
 export async function loadObservations() {

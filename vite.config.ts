@@ -1,40 +1,46 @@
 /// <reference types="vitest/config" />
+/// <reference types="vitest" />
 
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
+import { createApi } from "./server/api";
 
-import { playwright } from "@vitest/browser-playwright";
+const api = createApi();
+
+const apiPlugin = (): Plugin => ({
+  name: "local-api",
+  configureServer(server) {
+    server.middlewares.use(api);
+  },
+  configurePreviewServer(server) {
+    server.middlewares.use(api);
+  },
+});
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    port: 3000,
-    proxy: {
-      "/load": "http://localhost:4000",
-      "/save": "http://localhost:4000",
-    },
-  },
+  plugins: [react(), apiPlugin()],
   test: {
-    include: ["**/__tests__/**/*.[jt]s?(x)"],
-    reporters: ["default", "json"],
-    outputFile: "test-results.json",
-    exclude: ["**/node_modules/**", "__tests__/**"],
-    globals: true,
-    setupFiles: ["setupTests.ts"],
-    browser: {
+    coverage: {
       enabled: true,
-      provider: playwright({
-        launchOptions: {
-          args: ["--use-gl=angle"],
-        },
-      }),
-      instances: [
-        {
-          browser: "chromium",
-          viewport: { width: 800, height: 600 },
-        },
-      ],
+      provider: "v8",
+      reporter: ["text", "html", "clover", "json", "lcov"],
+      include: ["server/**/*.ts", "src/**/*.{ts,tsx}"],
     },
+    projects: [
+      {
+        test: {
+          name: "api:unit",
+          include: ["./server/**/*.test.ts"],
+          exclude: ["./server/**/*.integration.test.ts"],
+        },
+      },
+      {
+        test: {
+          name: "api:integration",
+          include: ["./server/**/*.integration.test.ts"],
+        },
+      },
+    ],
   },
 });

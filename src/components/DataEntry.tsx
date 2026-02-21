@@ -1,13 +1,13 @@
 import { useRef } from "react";
-import { Location } from "../types";
+import { Location } from "../interfaces";
 
-import "@esri/calcite-components/dist/components/calcite-block";
-import "@esri/calcite-components/dist/components/calcite-block-section";
-import "@esri/calcite-components/dist/components/calcite-button";
-import "@esri/calcite-components/dist/components/calcite-input";
-import "@esri/calcite-components/dist/components/calcite-input-number";
-import "@esri/calcite-components/dist/components/calcite-label";
-import "@esri/calcite-components/dist/components/calcite-notice";
+import "@esri/calcite-components/components/calcite-block";
+import "@esri/calcite-components/components/calcite-block-section";
+import "@esri/calcite-components/components/calcite-button";
+import "@esri/calcite-components/components/calcite-input";
+import "@esri/calcite-components/components/calcite-input-number";
+import "@esri/calcite-components/components/calcite-label";
+import "@esri/calcite-components/components/calcite-notice";
 
 export interface DataEntryProps {
   location: Location | null;
@@ -30,30 +30,30 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
         <calcite-block-section expanded>
           <div>
             <calcite-label>
-              Latitude
               <calcite-input-number
                 id="latitude"
                 readOnly
+                label-text="Latitude"
                 value={location ? String(location.latitude) : "0"}
               ></calcite-input-number>
             </calcite-label>
           </div>
           <div>
             <calcite-label>
-              Longitude
               <calcite-input-number
                 id="longitude"
                 readOnly
+                label-text="Longitude"
                 value={location ? String(location.longitude) : "0"}
               ></calcite-input-number>
             </calcite-label>
           </div>
           <div>
             <calcite-label>
-              Observation
               <calcite-input
                 ref={observationRef}
                 id="observation"
+                label-text="Observation"
                 data-testid="observation"
               ></calcite-input>
             </calcite-label>
@@ -61,6 +61,7 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
           <div>
             <calcite-button
               id="submit-button"
+              label="Submit"
               onClick={() => {
                 onSubmit(observationRef.current!.value);
               }}

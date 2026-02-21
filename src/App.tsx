@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
-import "@esri/calcite-components/dist/components/calcite-shell";
-import "@esri/calcite-components/dist/components/calcite-shell-panel";
-import "@esri/calcite-components/dist/components/calcite-panel";
+import "@esri/calcite-components/components/calcite-shell";
+import "@esri/calcite-components/components/calcite-shell-panel";
+import "@esri/calcite-components/components/calcite-panel";
 
 import MapContainer from "./components/MapContainer";
 import DataEntry from "./components/DataEntry";
 
 import { loadObservations, saveObservation } from "./api/fetchData";
-import { Observation, Location } from "./types";
+import { Observation, Location } from "./interfaces";
 
 function App() {
   const [currentPoint, setCurrentPoint] = useState<Location | null>(null);
@@ -31,9 +31,9 @@ function App() {
   }, []);
 
   return (
-    <calcite-shell contentBehind={true}>
-      <calcite-shell-panel slot="panel-start">
-        <calcite-panel heading="Data Entry">
+    <calcite-shell>
+      <calcite-shell-panel slot="panel-start" resizable>
+        <calcite-panel heading="Observations">
           <DataEntry location={currentPoint} onSubmit={onSaveObservation} />
         </calcite-panel>
       </calcite-shell-panel>
