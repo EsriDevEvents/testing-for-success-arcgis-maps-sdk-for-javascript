@@ -7,7 +7,7 @@ import "@esri/calcite-components/components/calcite-panel";
 import MapContainer from "./components/MapContainer";
 import DataEntry from "./components/DataEntry";
 
-import { loadObservations, saveObservation } from "./api/fetchData";
+import { loadObservations, saveObservation } from "./fetchData";
 import { Observation, Location } from "./interfaces";
 
 function App() {

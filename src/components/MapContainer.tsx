@@ -14,15 +14,12 @@ interface MapContainerProps {
   observations: Observation[];
   location: Location | null;
   onMapLoad?: () => void;
-  onMapClick?: () => void;
 }
 
 const MapContainer = ({
   setLocation,
   observations,
   location,
-  onMapLoad,
-  onMapClick,
 }: MapContainerProps) => {
   const mapRef = useRef<HTMLArcgisMapElement>(null);
   const pinLayerRef = useRef(new GraphicsLayer());
@@ -41,10 +38,6 @@ const MapContainer = ({
 
       // append ready to the class for testing
       map.classList.add("ready");
-
-      if (onMapLoad) {
-        onMapLoad();
-      }
     }
   }, [mapReady]);
 
@@ -111,10 +104,6 @@ const MapContainer = ({
 
         if (results.length === 0) {
           setLocation({ latitude: latitude!, longitude: longitude! });
-        }
-
-        if (onMapClick) {
-          onMapClick();
         }
       }}
     >
