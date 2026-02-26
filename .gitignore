@@ -23,14 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-*storybook.log
-storybook-static
+# vitest
+.vitest-attachments
 
-test-results.json
-__visualregression__/**/*-snapshots
-results.json
-
+# v8 coverage
 coverage
-
-playwright-report
-test-results
