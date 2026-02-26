@@ -3,7 +3,7 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 import { playwright } from "@vitest/browser-playwright";
-import observationApi from "./src/observationsApi";
+import observationApi from "./api/observationsApi";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -27,7 +27,7 @@ export default defineConfig({
       enabled: true,
       provider: "v8",
       reporter: ["text", "html", "clover", "json", "lcov"],
-      include: ["**/*.{ts,tsx}"],
+      include: ["src/**/*.{ts,tsx}"],
     },
     onConsoleLog: (msg) => {
       const ignores = [/^Lit is in dev mode/u, /^Using Calcite Components/u];

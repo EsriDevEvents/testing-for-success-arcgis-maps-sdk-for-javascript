@@ -1,11 +1,12 @@
 import type { Plugin, ViteDevServer } from "vite";
-import { Observation } from "./interfaces";
+import { Observation } from "../src/interfaces";
 import express from "express";
 
 const observationApi = (observations: Observation[]): Plugin => ({
   name: "observations-api",
   configureServer(server: ViteDevServer) {
     const app = express();
+    app.use(express.json())
 
     app.get("/api/load", (req, res) => {
       console.log(`[observation-api] GET ${req.originalUrl}`);
@@ -14,11 +15,16 @@ const observationApi = (observations: Observation[]): Plugin => ({
     });
     app.post("/api/save", (req, res) => {
       console.log(`[observation-api] POST ${req.originalUrl}`);
-      const data = JSON.parse(req.body);
-      observations.push(data);
+      const data = req.body;
 
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ success: true }));
+      if (data) {
+        observations.push(data);
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ success: true }));
+        return;
+      }
+
+      res.status(400).json({ success: false, message: "Invalid observation data" });
     });
 
     server.middlewares.use(app);
