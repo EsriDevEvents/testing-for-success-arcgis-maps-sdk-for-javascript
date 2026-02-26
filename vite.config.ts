@@ -15,7 +15,10 @@ export default defineConfig({
   test: {
     browser: {
       enabled: true,
-      provider: playwright(),
+      provider: playwright({
+        // Ensure WebGL is available in the test environment
+        launchOptions: { args: ["--use-gl=angle"] },
+      }),
       // https://vitest.dev/config/browser/playwright
       instances: [{ browser: "chromium" }],
       viewport: { width: 800, height: 600 },
