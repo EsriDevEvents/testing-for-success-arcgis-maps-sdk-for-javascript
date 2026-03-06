@@ -15,7 +15,7 @@ describe("MapContainer", () => {
         />
       </div>,
     );
-    const map = component.container.querySelector("arcgis-map")!;
+    const map = component.container.querySelector("arcgis-scene")!;
     await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
   });
 
@@ -31,7 +31,7 @@ describe("MapContainer", () => {
         />
       </div>,
     );
-    const map = component.container.querySelector("arcgis-map")!;
+    const map = component.container.querySelector("arcgis-scene")!;
     await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
 
     await userEvent.click(map, { position: { x: 100, y: 100 } });
@@ -56,7 +56,7 @@ describe("MapContainer", () => {
       </div>,
     );
 
-    const map = component.container.querySelector("arcgis-map")!;
+    const map = component.container.querySelector("arcgis-scene")!;
     await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
 
     await expect.element(component.locator).toMatchScreenshot();
@@ -75,7 +75,7 @@ describe("MapContainer", () => {
       </div>,
     );
 
-    const map = component.container.querySelector("arcgis-map")!;
+    const map = component.container.querySelector("arcgis-scene")!;
     await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
 
     await expect.element(component.locator).toMatchScreenshot();
@@ -98,7 +98,7 @@ describe("MapContainer", () => {
       </div>,
     );
 
-    const map = component.container.querySelector("arcgis-map")!;
+    const map = component.container.querySelector("arcgis-scene")!;
     await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
 
     await userEvent.click(map, { position: { x: 400, y: 300 } });
