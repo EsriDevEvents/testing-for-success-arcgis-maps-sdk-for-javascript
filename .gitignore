@@ -28,3 +28,6 @@ dist-ssr
 
 # v8 coverage
 coverage
+
+# devproxy, https://learn.microsoft.com/en-us/microsoft-cloud/dev/dev-proxy/overview
+.devproxy
