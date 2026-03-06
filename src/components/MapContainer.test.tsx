@@ -34,7 +34,7 @@ describe("MapContainer", () => {
     const map = component.container.querySelector("arcgis-scene")!;
     await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
 
-    await userEvent.click(map, { position: { x: 100, y: 100 } });
+    await userEvent.click(map, { position: { x: 400, y: 300 } });
 
     await expect.poll(() => setLocationSpy).toHaveBeenCalled();
     expect(setLocationSpy).toHaveBeenCalledWith(
