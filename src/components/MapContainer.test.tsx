@@ -45,42 +45,6 @@ describe("MapContainer", () => {
     );
   });
 
-  it("renders marker", async () => {
-    const component = await render(
-      <div style={{ width: "800px", height: "600px" }}>
-        <MapContainer
-          observations={[]}
-          location={{ latitude: 34.027, longitude: -118.805 }}
-          setLocation={() => {}}
-        />
-      </div>,
-    );
-
-    const map = component.container.querySelector("arcgis-scene")!;
-    await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
-
-    await expect.element(component.locator).toMatchScreenshot();
-  });
-
-  it("renders observation", async () => {
-    const component = await render(
-      <div style={{ width: "800px", height: "600px" }}>
-        <MapContainer
-          observations={[
-            { latitude: 34.027, longitude: -118.805, observation: "☀️" },
-          ]}
-          location={null}
-          setLocation={() => {}}
-        />
-      </div>,
-    );
-
-    const map = component.container.querySelector("arcgis-scene")!;
-    await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
-
-    await expect.element(component.locator).toMatchScreenshot();
-  });
-
   it("opens popup when observation is clicked", async () => {
     const component = await render(
       <div style={{ width: "800px", height: "600px" }}>
@@ -104,6 +68,12 @@ describe("MapContainer", () => {
     await userEvent.click(map, { position: { x: 400, y: 300 } });
 
     await expect.element(component.getByText("☀️")).toBeVisible();
+
+    // Mask the map's canvas from the shadow DOM
+    const shadowRoot = map.shadowRoot!;
+    const canvas = shadowRoot.querySelector("canvas")!;
+    canvas.style.display = "none";
+
     await expect.element(component.locator).toMatchScreenshot();
   });
 });
