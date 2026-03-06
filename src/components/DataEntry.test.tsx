@@ -70,4 +70,24 @@ describe("DataEntry", () => {
       .element(component.locator)
       .toMatchScreenshot("data-entry-add-observation");
   });
+
+  it("can submit w/ keyboard only", async () => {
+    const onSubmit = vi.fn();
+
+    const component = await render(
+      <DataEntry
+        location={{
+          latitude: 34.02771190164404,
+          longitude: -118.81032193749677,
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    await component.getByTestId("data-entry-observation-input").click();
+    await userEvent.keyboard("☀️");
+    await userEvent.keyboard("{Enter}");
+
+    expect(onSubmit).toHaveBeenCalledWith("☀️");
+  });
 });
