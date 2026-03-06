@@ -35,6 +35,7 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
                 readOnly
                 label-text="Latitude"
                 value={location ? String(location.latitude) : "0"}
+                data-testid="data-entry-latitude-input"
               ></calcite-input-number>
             </calcite-label>
           </div>
@@ -45,6 +46,7 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
                 readOnly
                 label-text="Longitude"
                 value={location ? String(location.longitude) : "0"}
+                data-testid="data-entry-longitude-input"
               ></calcite-input-number>
             </calcite-label>
           </div>
@@ -54,7 +56,7 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
                 ref={observationRef}
                 id="observation"
                 label-text="Observation"
-                data-testid="observation"
+                data-testid="data-entry-observation-input"
               ></calcite-input>
             </calcite-label>
           </div>
