@@ -15,7 +15,7 @@ describe("MapContainer", () => {
         />
       </div>,
     );
-    const map = component.container.querySelector("arcgis-scene")!;
+    const map = component.container.querySelector("arcgis-map")!;
     await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
   });
 
@@ -31,7 +31,7 @@ describe("MapContainer", () => {
         />
       </div>,
     );
-    const map = component.container.querySelector("arcgis-scene")!;
+    const map = component.container.querySelector("arcgis-map")!;
     await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
 
     await userEvent.click(map, { position: { x: 400, y: 300 } });
@@ -62,17 +62,12 @@ describe("MapContainer", () => {
       </div>,
     );
 
-    const map = component.container.querySelector("arcgis-scene")!;
+    const map = component.container.querySelector("arcgis-map")!;
     await expect.poll(() => map.updating, { timeout: 10_000 }).toBeFalsy();
 
     await userEvent.click(map, { position: { x: 400, y: 300 } });
 
     await expect.element(component.getByText("☀️")).toBeVisible();
-
-    // Mask the map's canvas from the shadow DOM
-    const shadowRoot = map.shadowRoot!;
-    const canvas = shadowRoot.querySelector("canvas")!;
-    canvas.style.display = "none";
 
     await expect.element(component.locator).toMatchScreenshot();
   });

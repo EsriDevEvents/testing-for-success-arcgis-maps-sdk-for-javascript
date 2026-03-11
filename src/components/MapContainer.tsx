@@ -1,7 +1,7 @@
 import { useRef, useEffect, Dispatch, SetStateAction, useState } from "react";
 import type { Location, Observation } from "../interfaces";
 
-import "@arcgis/map-components/components/arcgis-scene";
+import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
 
 import Graphic from "@arcgis/core/Graphic";
@@ -84,12 +84,10 @@ const MapContainer = ({
   }, [observations, mapReady]);
 
   return (
-    <arcgis-scene
+    <arcgis-map
       ref={mapRef}
-      basemap="topo-3d"
-      ground="world-elevation"
-      cameraTilt={80}
-      zoom={16.3}
+      basemap="streets-navigation-vector"
+      zoom={13}
       center={[-118.805, 34.027]}
       onarcgisViewReadyChange={(e) => {
         setMapReady(e.currentTarget.ready);
@@ -111,7 +109,7 @@ const MapContainer = ({
       data-testid="map"
     >
       <arcgis-zoom slot="top-right"></arcgis-zoom>
-    </arcgis-scene>
+    </arcgis-map>
   );
 };
 
