@@ -1,8 +1,8 @@
-import { Observation } from "../interfaces";
+import { Observation } from "./interfaces";
 
 // requests to load observations from our express server
 export async function loadObservations() {
-  return fetch("/load")
+  return fetch("/api/load")
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -15,7 +15,7 @@ export async function loadObservations() {
 
 // requests to save an observation in our express server
 export async function saveObservation(observation: Observation) {
-  return fetch("/save", {
+  return fetch("/api/save", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

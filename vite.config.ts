@@ -1,46 +1,42 @@
 /// <reference types="vitest/config" />
-/// <reference types="vitest" />
 
-import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
-import { createApi } from "./server/api";
-
-const api = createApi();
-
-const apiPlugin = (): Plugin => ({
-  name: "local-api",
-  configureServer(server) {
-    server.middlewares.use(api);
-  },
-  configurePreviewServer(server) {
-    server.middlewares.use(api);
-  },
-});
+import { defineConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
+import observationApi from "./api/observationsApi";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), apiPlugin()],
+  plugins: [
+    react(),
+    observationApi([
+      {
+        latitude: 34.02771190164404,
+        longitude: -118.81032193749677,
+        observation: "☀️",
+      },
+    ]),
+  ],
   test: {
+    browser: {
+      enabled: true,
+      provider: playwright({
+        // Ensure WebGL is available in the test environment
+        launchOptions: { args: ["--use-gl=angle"] },
+      }),
+      // https://vitest.dev/config/browser/playwright
+      instances: [{ browser: "chromium" }],
+      viewport: { width: 800, height: 600 },
+    },
     coverage: {
       enabled: true,
       provider: "v8",
       reporter: ["text", "html", "clover", "json", "lcov"],
-      include: ["server/**/*.ts", "src/**/*.{ts,tsx}"],
+      include: ["src/**/*.{ts,tsx}"],
     },
-    projects: [
-      {
-        test: {
-          name: "api:unit",
-          include: ["./server/**/*.test.ts"],
-          exclude: ["./server/**/*.integration.test.ts"],
-        },
-      },
-      {
-        test: {
-          name: "api:integration",
-          include: ["./server/**/*.integration.test.ts"],
-        },
-      },
-    ],
+    onConsoleLog: (msg) => {
+      const ignores = [/^Lit is in dev mode/u, /^Using Calcite Components/u];
+      return !ignores.some((re) => re.test(msg));
+    },
   },
 });
