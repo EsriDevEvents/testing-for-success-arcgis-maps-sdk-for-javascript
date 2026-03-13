@@ -1,7 +1,10 @@
 import { setupWorker } from "msw/browser";
 import { http, HttpResponse, passthrough } from "msw";
-import { describe, it as itBase } from "vitest";
+import { expect, describe, it as itBase } from "vitest";
+import { render } from "vitest-browser-react";
+import { page, userEvent } from "vitest/browser";
 
+import App from "./App";
 import { type Observation } from "./interfaces";
 
 const initialObservations: Observation[] = [];
@@ -52,5 +55,25 @@ const it = itBase.extend({
  **********************************/
 
 describe("App", () => {
-  it.todo("can save an observation and display it in a popup", async () => {});
+  it("can save an observation and display it in a popup", async () => {
+    // Arrange
+    const results = await render(<App />);
+    const map = results.container.querySelector("arcgis-scene")!;
+    await expect.poll(() => map.updating, { timeout: 150_000 }).toBeFalsy();
+
+    // Act
+    // 1 - select location
+    await userEvent.click(map, { position: { x: 415, y: 320 } });
+
+    // 2 - add the observation
+    await userEvent.click(page.getByTestId("data-entry-observation-input"));
+    await userEvent.keyboard("sunny");
+
+    // 3 - save the obervation
+    await userEvent.click(page.getByRole("button", { name: "Submit" }));
+
+    // Assert
+    await userEvent.click(map, { position: { x: 410, y: 320 } });
+    await expect.element(page.getByText("sunny")).toBeVisible();
+  });
 });
