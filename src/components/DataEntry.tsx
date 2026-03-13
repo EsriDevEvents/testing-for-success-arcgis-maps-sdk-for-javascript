@@ -57,6 +57,11 @@ export default function DataEntry({ location, onSubmit }: DataEntryProps) {
                 id="observation"
                 label-text="Observation"
                 data-testid="data-entry-observation-input"
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") {
+                    onSubmit(observationRef.current!.value);
+                  }
+                }}
               ></calcite-input>
             </calcite-label>
           </div>
